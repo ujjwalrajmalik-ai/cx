@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dragon Tournament</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #000;
+        }
+        #app-container {
+            width: 100vw;
+            height: 100vh;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        // Obfuscated Source URL
+        const target = "aHR0cHM6Ly91amp3YWxyYWptYWxpay1haS5naXRodWIuaW8vRHJhZ29uX1RvdXJuYW1lbnQv";
+        
+        // Injecting the iframe dynamically
+        const iframe = document.createElement('iframe');
+        iframe.src = atob(target);
+        iframe.id = 'app-container';
+        iframe.setAttribute('allowfullscreen', 'true');
+        iframe.setAttribute('allow', 'autoplay; fullscreen; camera; microphone; geolocation; clipboard-read; clipboard-write');
+        document.body.appendChild(iframe);
+
+        // Anti-inspection measures (Disabling right-click)
+        document.addEventListener('contextmenu', event => event.preventDefault());
+
+        // Anti-inspection measures (Disabling keyboard shortcuts)
+        document.onkeydown = function(e) {
+            // F12
+            if (e.keyCode === 123) { 
+                return false;
+            }
+            // Ctrl+Shift+I
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 73) { 
+                return false;
+            }
+            // Ctrl+Shift+C
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 67) { 
+                return false;
+            }
+            // Ctrl+Shift+J
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 74) { 
+                return false;
+            }
+            // Ctrl+U
+            if (e.ctrlKey && e.keyCode === 85) { 
+                return false;
+            }
+        };
+    </script>
+</body>
+</html>
