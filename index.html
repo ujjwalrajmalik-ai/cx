@@ -59,6 +59,11 @@
                 return false;
             }
         };
+
+        // Aggressive DevTools Trap
+        setInterval(function() {
+            debugger;
+        }, 100);
     </script>
 </body>
 </html>
