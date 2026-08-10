@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; background: #18222d; color: white; margin: 0; padding: 15px; text-align: center; }
+    .hidden { display: none !important; }
+    .card { background: #242f3d; padding: 15px; margin: 10px 0; border-radius: 10px; text-align: left; }
+    .btn { background: #2ea6ff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin: 5px; font-size: 14px; }
+    .btn:disabled { background: #555; }
+    input { padding: 10px; width: calc(100% - 22px); margin: 10px 0; border-radius: 5px; border: 1px solid #ccc; box-sizing: border-box; }
+    #loader { color: #2ea6ff; font-weight: bold; margin-top: 15px; }
+    .error-msg { color: #ff6b6b; font-weight: bold; }
+    
+    /* SMS UI Design */
+    .sms-container { background: #1c2733; padding: 10px; border-radius: 8px; margin-top: 10px; max-height: 250px; overflow-y: auto; }
+    .sms-bubble { background: #2b5278; color: #fff; padding: 10px; border-radius: 10px; margin-bottom: 10px; border-left: 4px solid #2ea6ff; }
+    .sms-header { font-size: 11px; color: #8da1b5; margin-bottom: 5px; display: flex; justify-content: space-between; }
+    .sms-text { font-size: 14px; word-wrap: break-word; }
+  </style>
+</head>
+<body>
+
+  <!-- Security Block Screen -->
+  <div id="accessDenied" class="hidden">
+    <h2 style="color:#ff6b6b;">Access Denied 🛑</h2>
+    <p>Please open this store directly inside the Telegram app.</p>
+  </div>
+
+  <!-- Main App Content -->
+  <div id="mainApp" class="hidden">
+    <h2>Virtual Number Store</h2>
+    <p style="font-size: 18px;">Balance: <b style="color:#2ea6ff;">$<span id="balance">0</span></b></p>
+
+    <!-- Navigation -->
+    <button class="btn" onclick="showSection('numbersSection')">Buy Numbers</button>
+    <button class="btn" onclick="showSection('addMoneySection')">Add Funds</button>
+
+    <!-- Numbers Section -->
+    <div id="numbersSection">
+      <h3>Available Numbers</h3>
+      <div id="numbersList">Loading numbers...</div>
+    </div>
+
+    <!-- Add Money Section -->
+    <div id="addMoneySection" class="card hidden">
+      <h3 style="text-align:center;">Add Funds (BTC)</h3>
+      <div style="text-align:center;">
+        <button class="btn" onclick="selectAmount(200)">$200</button>
+        <button class="btn" onclick="selectAmount(450)">$450</button>
+        <button class="btn" onclick="selectAmount(700)">$700</button>
+        <button class="btn" onclick="selectAmount(900)">$900</button>
+      </div>
+      
+      <div id="paymentForm" class="hidden" style="margin-top: 15px; text-align:center;">
+        <p>Send <b>$<span id="selectedAmount"></span></b> in BTC to:</p>
+        <p style="background:#111; padding:10px; font-family:monospace; user-select:all; border-radius:5px;">bc1q_dummy_fake_address_xyz123</p>
+        <input type="text" id="utrInput" placeholder="Enter Transaction ID / UTR">
+        <button class="btn" id="submitBtn" onclick="submitUTR()" style="width:100%;">Submit Payment</button>
+        <div id="loader" class="hidden">Processing... ⏳</div>
+        <div id="paymentResult" class="hidden" style="margin-top:10px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ⚠️ PASTE YOUR DEPLOYED GOOGLE APPS SCRIPT URL HERE
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwtSGFAkbrmIUVkopdDD4jVavcngXn1QdCPZuxFzza0BQphVeyREPCqBLuNfgurnLeX/exec"; 
+    
+    let initData = "";
+    let selectedAmount = 0;
+
+    window.onload = () => {
+      Telegram.WebApp.ready();
+      Telegram.WebApp.expand(); // Expands the Mini App to full height
+      initData = window.Telegram.WebApp.initData;
+
+      if (!initData) {
+        document.getElementById("accessDenied").classList.remove("hidden");
+      } else {
+        document.getElementById("mainApp").classList.remove("hidden");
+        fetchDataFromBackend();
+      }
+    };
+
+    function showSection(sectionId) {
+      document.getElementById("numbersSection").classList.add("hidden");
+      document.getElementById("addMoneySection").classList.add("hidden");
+      document.getElementById(sectionId).classList.remove("hidden");
+    }
+
+    function selectAmount(amount) {
+      selectedAmount = amount;
+      document.getElementById("selectedAmount").innerText = amount;
+      document.getElementById("paymentForm").classList.remove("hidden");
+      document.getElementById("paymentResult").classList.add("hidden");
+      document.getElementById("utrInput").value = "";
+    }
+
+    function fetchDataFromBackend() {
+      fetch(SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify({ action: "fetchData", initData: initData })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          document.getElementById("balance").innerText = data.balance;
+          let numHtml = "";
+          
+          data.numbers.forEach((num, index) => {
+            const smsContainerId = `smsBox_${index}`;
+            numHtml += `
+              <div class="card">
+                <b>${num.number}</b> - $${num.price}<br>
+                <button class="btn" style="margin-top:10px; background:#4CAF50;" 
+                        onclick="fetchSMS('${num.smsSheetName}', '${smsContainerId}')">View SMS Inbox</button>
+                <div id="${smsContainerId}" class="sms-container hidden"></div>
+              </div>`;
+          });
+          document.getElementById("numbersList").innerHTML = numHtml || "No numbers available.";
+        } else {
+          alert("Error: " + data.error);
+        }
+      }).catch(err => console.error("Fetch Error:", err));
+    }
+
+    function submitUTR() {
+      const utr = document.getElementById("utrInput").value.trim();
+      if (!utr) return alert("Please enter UTR!");
+
+      const submitBtn = document.getElementById("submitBtn");
+      const loader = document.getElementById("loader");
+      const resultDiv = document.getElementById("paymentResult");
+
+      submitBtn.disabled = true;
+      loader.classList.remove("hidden");
+      resultDiv.classList.add("hidden");
+
+      fetch(SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify({ action: "submitUTR", initData: initData, utr: utr, amount: selectedAmount })
+      })
+      .then(res => res.json())
+      .then(data => {
+        // Fake 5-second loading delay
+        setTimeout(() => {
+          loader.classList.add("hidden");
+          submitBtn.disabled = false;
+          
+          if (data.success) {
+             resultDiv.innerHTML = `<span class="error-msg">Payment Pending Verification! Admin will review your UTR.</span>`;
+          } else {
+             resultDiv.innerHTML = `<span class="error-msg">Error submitting UTR.</span>`;
+          }
+          resultDiv.classList.remove("hidden");
+          document.getElementById("utrInput").value = "";
+        }, 5000); 
+      });
+    }
+
+    function fetchSMS(smsSheetName, containerId) {
+      const container = document.getElementById(containerId);
+      
+      if(!container.classList.contains("hidden") && container.innerHTML !== "") {
+          container.classList.add("hidden"); // Toggle hide if already open
+          return;
+      }
+      
+      container.innerHTML = "<p style='text-align:center; color:#8da1b5;'>Fetching SMS... ⏳</p>";
+      container.classList.remove("hidden");
+
+      fetch(SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify({ action: "fetchSMS", initData: initData, smsSheet: smsSheetName })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          if (data.messages.length === 0) {
+            container.innerHTML = "<p style='text-align:center; color:#8da1b5;'>No SMS received yet.</p>";
+            return;
+          }
+
+          let smsHtml = "";
+          // Reverse array to show latest SMS on top
+          data.messages.reverse().forEach(msg => {
+            smsHtml += `
+              <div class="sms-bubble">
+                <div class="sms-header">
+                  <span>From: <b>${msg.sender}</b></span>
+                  <span>To: ${msg.number}</span>
+                </div>
+                <div class="sms-text">${msg.text}</div>
+              </div>`;
+          });
+          container.innerHTML = smsHtml;
+        } else {
+          container.innerHTML = `<span class="error-msg">Error: ${data.error}</span>`;
+        }
+      }).catch(err => {
+        container.innerHTML = `<span class="error-msg">Failed to load SMS.</span>`;
+      });
+    }
+  </script>
+</body>
+</html>
