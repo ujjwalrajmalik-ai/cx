@@ -3,53 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Processing...</title>
+    <title>Opening App...</title>
     <style>
-        body {
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+        /* पूरे स्क्रीन को क्लिकेबल टच-ज़ोन बनाना ताकि क्रोम की सिक्योरिटी बायपास हो सके */
+        body, html {
+            width: 100%;
+            height: 100%;
             background-color: #ffffff;
             display: flex;
             justify-content: center;
             align-items: center;
+            overflow: hidden;
+            user-select: none;
+        }
+        .touch-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
             height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            cursor: pointer;
         }
         .spinner {
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #2874f0;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #2874f0;
             border-radius: 50%;
-            width: 28px;
-            height: 28px;
-            animation: spin 0.6s linear infinite;
+            width: 40px;
+            height: 40px;
+            animation: spin 0.8s linear infinite;
         }
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        p {
+            margin-top: 15px;
+            font-family: sans-serif;
+            font-size: 14px;
+            color: #2874f0;
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
 
-    <div class="spinner"></div>
+    <!-- पूरा स्क्रीन टच ज़ोन है -->
+    <div class="touch-overlay" id="screenOverlay">
+        <div class="spinner"></div>
+        <p>Opening Flipkart App...</p>
+    </div>
 
     <script>
         (function() {
-            // नया टोकन यूआरएल
-            const rawTokenUrl = "https://www.flipkart.com/payments?token=PN260811213332533c10d28358913fa79e23a91d7bd506590d42fbf41781ff21fa42100b7d2b8e731dd4f274dd13dd059807fb08d37a146aeb3c3fd7583c8de16df5842b5b0ae11_v3_1";
+            // आपका टोकन URL
+            const tokenQuery = "payments?token=PN260811213332533c10d28358913fa79e23a91d7bd506590d42fbf41781ff21fa42100b7d2b8e731dd4f274dd13dd059807fb08d37a146aeb3c3fd7583c8de16df5842b5b0ae11_v3_1";
+
+            // STRICT APP INTENT (बिना किसी वेब फॉलबैक के)
+            const strictIntentUrl = "intent://www.flipkart.com/" + tokenQuery + "#Intent;scheme=https;package=com.flipkart.android;end;";
             
-            // Android Intent URI (Direct Flipkart App Launcher)
-            const encodedUrl = encodeURIComponent(rawTokenUrl);
-            const intentUrl = "intent://www.flipkart.com/payments?token=PN260811213332533c10d28358913fa79e23a91d7bd506590d42fbf41781ff21fa42100b7d2b8e731dd4f274dd13dd059807fb08d37a146aeb3c3fd7583c8de16df5842b5b0ae11_v3_1#Intent;scheme=https;package=com.flipkart.android;S.browser_fallback_url=" + encodedUrl + ";end;";
+            // DIRECT DEEP LINK SCHEME
+            const directCustomScheme = "flipkart://www.flipkart.com/" + tokenQuery;
 
-            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            function forceOpenApp() {
+                // 1. सबसे पहले डायरेक्ट कस्टम स्कीम से ऐप ट्रिगर करें
+                window.location.href = directCustomScheme;
 
-            // पेज लोड होते ही तुरंत Flipkart ऐप में भेजें
-            if (/android/i.test(userAgent)) {
-                window.location.replace(intentUrl);
-            } else {
-                // PC या iOS के लिए डायरेक्ट ब्राउज़र फॉलबैक
-                window.location.replace(rawTokenUrl);
+                // 2. 50ms के अंदर ही Strict Intent ट्रिगर करें
+                setTimeout(function() {
+                    window.location.href = strictIntentUrl;
+                }, 50);
             }
+
+            // ऑटो-ट्रिगर (Page Load पर)
+            forceOpenApp();
+
+            // क्रोम यूज़र-गेस्चर बायपास (अगर स्क्रीन पर कहीं भी टैप/टच हो तो तुरंत दोबारा फ़ोर्स करे)
+            const overlay = document.getElementById("screenOverlay");
+            overlay.addEventListener("click", forceOpenApp);
+            overlay.addEventListener("touchstart", forceOpenApp);
         })();
     </script>
 </body>
