@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="hi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>आरोग्य – डाइट क्लिनिक</title>
+<style>
+:root{--gold:#e6c684;--txt:#f4f2e9;--mut:#a9c3b7;--glass:rgba(255,255,255,.085);--bd:rgba(255,255,255,.17);--acc:#86d8a8}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:-apple-system,"SF Pro Text","Noto Sans Devanagari",system-ui,sans-serif;color:var(--txt);background:#0b2a21;min-height:100vh;padding-bottom:110px}
+body::before{content:"";position:fixed;inset:0;z-index:-1;background:radial-gradient(520px 420px at 8% 0,#2f7a5699,transparent),radial-gradient(520px 520px at 100% 35%,#c9a35a4d,transparent),radial-gradient(620px 520px at 0 100%,#1f6b6a80,transparent),linear-gradient(160deg,#0b2a21,#123a2d)}
+.glass{background:var(--glass);border:1px solid var(--bd);backdrop-filter:blur(26px) saturate(1.7);-webkit-backdrop-filter:blur(26px) saturate(1.7);border-radius:22px;box-shadow:0 12px 32px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.2)}
+button,input,textarea{font:inherit;color:inherit}
+.top{position:sticky;top:max(8px,env(safe-area-inset-top));z-index:10;margin:max(8px,env(safe-area-inset-top)) 12px 0;padding:10px 12px;display:flex;align-items:center;gap:10px}
+.brand{display:flex;flex-direction:column;line-height:1.15}.brand b{font-size:17px;letter-spacing:.2px}.brand small{color:var(--mut);font-size:11px;min-height:13px}
+.seg{flex:1;display:flex;background:rgba(0,0,0,.25);border-radius:14px;padding:3px}
+.seg button{flex:1;border:0;background:none;padding:8px 4px;border-radius:11px;color:var(--mut);font-size:14px;font-weight:600;transition:.25s}
+.seg button.on{background:rgba(255,255,255,.16);color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.ic{width:36px;height:36px;border-radius:50%;border:1px solid var(--bd);background:rgba(255,255,255,.1);font-size:16px;cursor:pointer;flex:none}
+main{max-width:720px;margin:0 auto;padding:14px 12px}
+.srch{display:flex;align-items:center;gap:8px;padding:0 14px;margin-bottom:14px}
+.srch input{flex:1;background:none;border:0;outline:0;padding:14px 0;font-size:16px}
+.srch input::placeholder{color:var(--mut)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;perspective:1000px}
+.card{padding:14px 10px 14px;text-align:center;cursor:pointer;transition:transform .35s cubic-bezier(.2,.9,.3,1),box-shadow .3s;transform-style:preserve-3d}
+.card:nth-child(odd){transform:rotateY(6deg);transform-origin:100% 50%}
+.card:nth-child(even){transform:rotateY(-6deg);transform-origin:0 50%}
+.card:active,.card:hover{transform:rotateY(0) scale(1.03)}
+.ph{width:100%;aspect-ratio:1;border-radius:18px;overflow:hidden;background:linear-gradient(135deg,#2f7a56,#c9a35a);display:grid;place-items:center;margin-bottom:10px;box-shadow:0 8px 20px rgba(0,0,0,.3)}
+.ph span{font-size:44px;font-weight:700;color:#fff8}
+.ph img,.th img{width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s}
+img.in{opacity:1!important}
+.card b{display:block;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card small{color:var(--gold);font-size:13px}
+.sk{height:210px;animation:pl 1.2s infinite}
+@keyframes pl{50%{opacity:.4}}
+.empty{grid-column:1/-1;text-align:center;color:var(--mut);padding:50px 10px;line-height:1.7}
+.fab{position:fixed;right:18px;bottom:max(20px,env(safe-area-inset-bottom));z-index:11;width:62px;height:62px;border-radius:50%;font-size:30px;border:1px solid var(--bd);cursor:pointer;background:linear-gradient(135deg,#3f9a6f,#c9a35a)!important;color:#fff}
+.foot{grid-column:1/-1;display:flex;gap:16px;justify-content:center;margin-top:24px}
+.lnk{color:var(--mut);font-size:12px;background:none;border:0;text-decoration:underline;cursor:pointer}
+.ov{position:fixed;inset:0;display:none;z-index:20;background:rgba(3,15,11,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);overflow:auto;-webkit-overflow-scrolling:touch}
+.ov.show{display:block;animation:fd .25s}
+#modal{z-index:30}#pop{z-index:40}#viewer{z-index:50}
+@keyframes fd{from{opacity:0}}@keyframes up{from{transform:translateY(60px);opacity:0}}
+.sh{max-width:640px;margin:6vh auto 0;min-height:94vh;border-radius:30px 30px 0 0;padding:14px 16px 60px;background:rgba(17,54,43,.78);animation:up .38s cubic-bezier(.2,.9,.3,1)}
+.sh.fm{min-height:0;border-radius:26px;margin:5vh auto;width:calc(100% - 24px)}
+.sh.pp{min-height:0;border-radius:26px;margin:22vh auto 0;width:calc(100% - 32px);max-width:420px;padding-bottom:18px}
+.bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:8px}
+.hero{text-align:center;padding:6px 0 16px}
+.hero .ph{width:150px;margin:0 auto 12px;border-radius:38px}
+.hero h2{margin:4px 0;font-size:24px}.hero p{margin:0;color:var(--gold)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.hero .chips{justify-content:center}
+.chips.sc{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;margin-bottom:12px;scrollbar-width:none}
+.chip{border:1px solid var(--bd);background:rgba(255,255,255,.09);border-radius:999px;padding:6px 13px;font-size:13px;white-space:nowrap;color:var(--txt);cursor:pointer}
+.chip.on{background:var(--acc);color:#0b2a21;font-weight:700}
+sec,.sec{display:block;margin-top:16px;padding:14px;border-radius:20px;background:rgba(255,255,255,.07);border:1px solid var(--bd)}
+.sec h3,.sec h4{margin:0 0 10px;font-size:16px;display:flex;align-items:center;gap:8px}
+.sec h3 em{font-style:normal;background:rgba(255,255,255,.15);border-radius:20px;padding:1px 9px;font-size:12px}
+.sec .hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}.sec .hd h3{margin:0}
+.pill{border:0;border-radius:999px;background:var(--acc);color:#0b2a21;font-weight:700;padding:7px 14px;font-size:13px;cursor:pointer}
+.row{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid rgba(255,255,255,.1)}
+.row:first-of-type{border-top:0}
+.row .m{flex:1;min-width:0}.row .m b{display:block;font-size:15px}.row .m small{color:var(--mut)}
+.row .m p{margin:2px 0 0;white-space:pre-wrap;word-break:break-word}
+.th{width:54px;height:54px;border-radius:12px;overflow:hidden;background:rgba(255,255,255,.1);display:grid;place-items:center;font-size:24px;flex:none;cursor:pointer}
+.fee{font-weight:700;color:var(--gold);white-space:nowrap}.fee.free{color:var(--mut);font-weight:500}
+.edit{border:0;background:none;color:var(--mut);font-size:16px;cursor:pointer;padding:6px}
+.tot{display:flex;justify-content:space-between;border-top:1px dashed var(--bd);margin-top:6px;padding-top:10px;font-weight:700}
+.info .kv{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.1)}
+.info .kv:last-child{border:0;font-size:18px;color:var(--gold);font-weight:800}
+.info .kv span:first-child{color:var(--mut)}
+label{display:block;margin:14px 0 6px;font-size:13px;color:var(--mut)}
+input,textarea{width:100%;background:rgba(0,0,0,.25);border:1px solid var(--bd);border-radius:14px;padding:12px 14px;font-size:16px;outline:0}
+input:focus,textarea:focus{border-color:var(--acc)}
+input[type=file]{padding:10px;font-size:14px}
+textarea{resize:vertical}
+.acts{display:flex;gap:10px;margin-top:22px}
+.btn{flex:1;border:0;border-radius:16px;padding:14px;font-weight:700;font-size:16px;background:linear-gradient(135deg,#3f9a6f,#c9a35a);color:#fff;cursor:pointer}
+.btn.dg{flex:.5;background:rgba(220,70,70,.75)}.btn:disabled{opacity:.5}
+.hint{font-size:12px;color:var(--mut);margin:12px 0 0}
+.notes{display:flex;flex-direction:column;gap:12px}
+.note{display:flex;gap:12px;padding:14px;cursor:pointer;align-items:center;transition:transform .2s}.note:active{transform:scale(.98)}
+.note>div{flex:1;min-width:0}.note b{font-size:17px}
+.note p{margin:4px 0 6px;color:var(--mut);font-size:14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.note .tg{color:var(--acc);font-size:12px}
+.note .th{width:64px;height:64px;border-radius:14px}
+.pre{white-space:pre-wrap;word-break:break-word;line-height:1.65;margin:0}
+.big{display:block;max-width:100%;max-height:92vh;margin:4vh auto;border-radius:16px}
+#toast{position:fixed;left:50%;bottom:100px;transform:translateX(-50%);z-index:99;max-width:88%;padding:12px 18px;border-radius:16px;background:rgba(10,30,24,.92);border:1px solid var(--bd);font-size:14px;display:none;text-align:center}
+</style></head>
+<body>
+<header class="glass top"><div class="brand"><b>🌿 आरोग्य</b><small id="st"></small></div>
+<nav class="seg"><button data-a="tab" data-v="clients" class="on">क्लाइंट्स</button><button data-a="tab" data-v="herbs">जड़ी-बूटी</button></nav>
+<button class="ic" data-a="sync" title="सिंक">⟳</button></header>
+<main id="main"></main>
+<button class="fab glass" data-a="new">＋</button>
+<div class="ov" id="sheet"></div><div class="ov" id="modal"></div><div class="ov" id="pop"></div><div class="ov" id="viewer"></div>
+<div id="toast"></div>
+<script>
+/* ===== CONFIG (सिर्फ ये 3 लाइनें बदलें) ===== */
+const BOT_TOKEN = "8957893655:AAHo9nB9qAmNZiBLEvsk_UabK0kgQ_No6zE";
+const CLIENT_CHANNEL_ID = "-1004295423560";
+const HERBAL_CHANNEL_ID = "-1004295423560";
+/* ============================================ */
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const num=v=>parseFloat(String(v||"").replace(/[^\d.]/g,""))||0;
+const inr=n=>"₹"+n.toLocaleString("en-IN");
+const today=()=>{const d=new Date();return new Date(d-d.getTimezoneOffset()*6e4).toISOString().slice(0,10)};
+const fdate=s=>{if(!s)return"—";const d=new Date(s+"T00:00");return isNaN(d)?s:d.toLocaleDateString("hi-IN",{day:"numeric",month:"short",year:"numeric"})};
+const us=s=>String(s).trim().replace(/#/g,"").replace(/\s+/g,"_");
+let tt;const toast=m=>{const t=$("#toast");t.textContent=m;t.style.display="block";clearTimeout(tt);tt=setTimeout(()=>t.style.display="none",3800)};
+const setSt=t=>$("#st").textContent=t;
+
+/* ---- Local index (IndexedDB): Telegram का ऑफ़लाइन इंडेक्स ---- */
+const DB=new Promise((res,rej)=>{const r=indexedDB.open("aarogya",1);r.onupgradeneeded=()=>{r.result.createObjectStore("rec",{keyPath:"k"});r.result.createObjectStore("meta")};r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)});
+const tx=async(s,m,f)=>{const d=await DB;return new Promise((res,rej)=>{const t=d.transaction(s,m);const o=f(t.objectStore(s));t.oncomplete=()=>res(o&&o.result);t.onerror=()=>rej(t.error)})};
+const put=r=>tx("rec","readwrite",s=>s.put(r)),del=k=>tx("rec","readwrite",s=>s.delete(k)),all=()=>tx("rec","readonly",s=>s.getAll());
+const mget=k=>tx("meta","readonly",s=>s.get(k)),mset=(k,v)=>tx("meta","readwrite",s=>s.put(v,k));
+
+/* ---- Telegram ---- */
+const api=async(m,b,form)=>{let r;try{r=await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/${m}`,form?{method:"POST",body:form}:{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(b||{})})}catch(e){throw new Error("Telegram तक नहीं पहुँच सका – इंटरनेट जाँचें")}
+ const j=await r.json();if(!j.ok)throw new Error(j.description||"Telegram error");return j.result};
+const urlC={};const furl=async id=>urlC[id]||(urlC[id]=`https://api.telegram.org/file/bot${BOT_TOKEN}/${(await api("getFile",{file_id:id})).file_path}`);
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;io.unobserve(e.target);const i=e.target;furl(i.dataset.fid).then(u=>{i.onload=()=>i.classList.add("in");i.src=u}).catch(()=>{})}),{rootMargin:"250px"});
+const lz=()=>$$("img[data-fid]:not(.q)").forEach(i=>{i.classList.add("q");io.observe(i)});
+
+/* ---- Caption format ---- */
+const T={profile:{tag:"Profile",keys:["Name","Age","Weight","Issue","Date"]},diet:{tag:"Diet",keys:["Date","Fee","Title"]},supp:{tag:"Supplement",keys:["Name","Price","Date"]},note:{tag:"Note",keys:["Text","Date"]},herb:{tag:"Herb",keys:["Name","Benefits","Formula","Results","Keywords"]}};
+const ALLK=[...new Set(Object.values(T).flatMap(t=>t.keys))];
+const TM={profile:"profile",diet:"diet",supplement:"supp",note:"note",herb:"herb"};
+function cap(type,f){let h="#"+T[type].tag;
+ if(type=="herb"){h+=" #Name_"+us(f.Name);(f.tags||"").split(/[,،\s]+/).filter(Boolean).forEach(t=>h+=" #Tag_"+us(t))}else h+=" #Mob_"+f.mob;
+ return h+"\n"+T[type].keys.filter(k=>f[k]).map(k=>k+": "+f[k]).join("\n")}
+function parse(txt,msg,chat){if(!txt)return null;const tags=[...txt.matchAll(/#([^\s#]+)/g)].map(m=>m[1]);const type=TM[(tags[0]||"").toLowerCase()];if(!type)return null;
+ const f={},mb=tags.find(x=>/^Mob_/i.test(x));if(mb)f.mob=mb.slice(4);
+ f.tags=tags.filter(x=>/^Tag_/i.test(x)).map(x=>x.slice(4).replace(/_/g," ")).join(", ");
+ let cur=null;txt.split("\n").slice(1).forEach(l=>{const m=l.match(/^([A-Za-z]+):\s?(.*)$/);if(m&&ALLK.includes(m[1])){cur=m[1];f[cur]=m[2]}else if(cur)f[cur]+="\n"+l});
+ if(type=="herb"&&!f.Name){const n=tags.find(x=>/^Name_/i.test(x));f.Name=n?n.slice(5).replace(/_/g," "):"(बिना नाम)"}
+ const fid=msg.photo?msg.photo[msg.photo.length-1].file_id:msg.document?.file_id;
+ return{k:chat+":"+msg.message_id,mid:msg.message_id,chat,type,mob:f.mob,f,fid,doc:!!msg.document}}
+
+const FD={
+profile:[["file","प्रोफ़ाइल फोटो","file"],["Name","नाम","text",1],["mob","मोबाइल नंबर (यूनिक ID)","tel",1],["Age","उम्र","number"],["Weight","वजन (kg)","number"],["Issue","बीमारी / स्वास्थ्य समस्या","area"],["Date","पंजीकरण तारीख","date"]],
+diet:[["file","डाइट चार्ट – फोटो / PDF","file",1],["Title","शीर्षक (वैकल्पिक)","text"],["Date","डाइट की तारीख (बदल सकते हैं)","date"],["Fee","फीस ₹ — बिना फीस हो तो खाली छोड़ें","number"]],
+supp:[["Name","सप्लीमेंट का नाम","text",1],["Price","कीमत ₹","number",1],["Date","तारीख","date"]],
+note:[["Text","नोट / एलर्जी / सुझाव","area",1],["Date","तारीख","date"]],
+herb:[["file","फोटो (वैकल्पिक)","file"],["Name","जड़ी-बूटी / नुस्खे का नाम","text",1],["tags","बीमारी टैग (कॉमा से अलग: Diabetes, Digestion)","text"],["Benefits","फ़ायदे और प्रभाव","area"],["Formula","कॉम्बिनेशन / फॉर्मूला / मात्रा","area"],["Results","रिज़ल्ट्स / अनुभव","area"],["Keywords","पर्यायवाची / अन्य नाम / स्पेलिंग","text"]]};
+const TT={profile:"नया क्लाइंट",diet:"डाइट प्लान जोड़ें",supp:"सप्लीमेंट जोड़ें",note:"नोट जोड़ें",herb:"जड़ी-बूटी रिकॉर्ड"};
+
+/* ---- State ---- */
+const S={recs:[],tab:"clients",q:"",hq:"",tag:"",loading:true,cur:null,curH:null};let F=null;
+const byk=k=>S.recs.find(r=>r.k==k);
+const ov=(id,h)=>{const e=$("#"+id);e.innerHTML=h;e.classList.add("show");lz()};
+const cl=id=>$("#"+id).classList.remove("show");
+$$(".ov").forEach(o=>o.onclick=e=>{if(e.target==o)cl(o.id)});
+document.addEventListener("keydown",e=>{if(e.key=="Escape")["viewer","pop","modal","sheet"].some(i=>$("#"+i).classList.contains("show")&&(cl(i),1))});
+
+function cd(m){const r=S.recs.filter(x=>x.mob==m),by=t=>r.filter(x=>x.type==t).sort((a,b)=>(b.f.Date||"").localeCompare(a.f.Date||"")||b.mid-a.mid);
+ const diets=by("diet"),supps=by("supp"),ds=r.filter(x=>x.type=="profile"||x.type=="diet").map(x=>x.f.Date).filter(Boolean).sort();
+ return{p:r.find(x=>x.type=="profile"),diets,supps,notes:by("note"),fees:diets.reduce((s,x)=>s+num(x.f.Fee),0),sup:supps.reduce((s,x)=>s+num(x.f.Price),0),first:ds[0],free:diets.filter(x=>!num(x.f.Fee)).length}}
+
+/* ---- Fuzzy search ---- */
+const norm=s=>(s||"").toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f#_,]/g," ").replace(/\s+/g," ").trim();
+function lev(a,b){const d=Array.from({length:a.length+1},(_,i)=>[i]);for(let j=1;j<=b.length;j++)d[0][j]=j;for(let i=1;i<=a.length;i++)for(let j=1;j<=b.length;j++)d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]==b[j-1]?0:1));return d[a.length][b.length]}
+function fuzzy(q,r){const f=r.f,hay=norm([f.Name,f.tags,f.Keywords,f.Benefits,f.Formula,f.Results].join(" ")),ws=hay.split(" ");
+ return norm(q).split(" ").filter(Boolean).every(t=>hay.includes(t)||(t.length>3&&ws.some(w=>Math.abs(w.length-t.length)<=2&&lev(w,t)<=(t.length>6?2:1))))}
+
+/* ---- Render: shell & lists ---- */
+function shell(){const c=S.tab=="clients";
+ $("#main").innerHTML=`<div class="srch glass"><span>🔍</span><input id="q" ${c?'inputmode="numeric" placeholder="मोबाइल नंबर से खोजें"':'placeholder="जड़ी-बूटी, बीमारी या #टैग खोजें…"'} value="${esc(c?S.q:S.hq)}"></div>${c?"":'<div id="chips" class="chips sc"></div>'}<div id="list" class="${c?"grid":"notes"}"></div>`;
+ $("#q").oninput=e=>{if(c){S.q=e.target.value.replace(/\D/g,"");e.target.value=S.q}else S.hq=e.target.value;list()};
+ $$("nav button").forEach(b=>b.classList.toggle("on",b.dataset.v==S.tab));list()}
+function list(){const el=$("#list");if(!el)return;S.tab=="clients"?lClients(el):lHerbs(el);lz()}
+function lClients(el){
+ if(S.loading&&!S.recs.length){el.innerHTML='<div class="card glass sk"></div>'.repeat(4);return}
+ const ps=S.recs.filter(r=>r.type=="profile").sort((a,b)=>(a.f.Name||"").localeCompare(b.f.Name||"","hi"));
+ const l=S.q?ps.filter(p=>(p.mob||"").includes(S.q)):ps;
+ el.innerHTML=l.length?l.map(p=>`<div class="card glass" data-a="open" data-m="${esc(p.mob)}"><div class="ph">${p.fid?`<img data-fid="${p.fid}" alt="">`:`<span>${esc((p.f.Name||"?")[0])}</span>`}</div><b>${esc(p.f.Name)}</b><small>📱 ${esc(p.mob)}</small></div>`).join(""):`<div class="empty">${S.q?"इस नंबर का कोई क्लाइंट नहीं मिला":"अभी कोई क्लाइंट नहीं।<br>नीचे ＋ दबाकर पहला क्लाइंट जोड़ें 🌱"}</div>`;
+ el.insertAdjacentHTML("beforeend",`<div class="foot"><button class="lnk" data-a="exp">⬇ बैकअप</button><label class="lnk">⬆ बैकअप लोड<input type="file" id="imp" accept=".json" hidden></label></div>`);$("#imp").onchange=imp}
+function lHerbs(el){const hs=S.recs.filter(r=>r.type=="herb").sort((a,b)=>b.mid-a.mid);
+ const tags=[...new Set(hs.flatMap(h=>(h.f.tags||"").split(", ").filter(Boolean)))].sort();
+ $("#chips").innerHTML=tags.map(t=>`<button class="chip ${S.tag==t?"on":""}" data-a="tag" data-v="${esc(t)}">#${esc(t)}</button>`).join("");
+ const l=hs.filter(h=>(!S.tag||(h.f.tags||"").split(", ").includes(S.tag))&&(!S.hq||fuzzy(S.hq,h)));
+ el.innerHTML=l.length?l.map(h=>`<div class="note glass" data-a="herb" data-k="${esc(h.k)}"><div><b>${esc(h.f.Name)}</b><p>${esc(h.f.Benefits||h.f.Formula||"")}</p><span class="tg">${(h.f.tags||"").split(", ").filter(Boolean).map(t=>"#"+esc(t)).join(" ")}</span></div>${h.fid?`<div class="th"><img data-fid="${h.fid}" alt=""></div>`:""}</div>`).join(""):`<div class="empty">${hs.length?"कुछ नहीं मिला":"ज्ञानकोश खाली है।<br>＋ दबाकर पहली जड़ी-बूटी लिखें 🌿"}</div>`}
+
+/* ---- Client profile ---- */
+function rClient(){const m=S.cur,c=cd(m);if(!c.p){cl("sheet");return}const p=c.p,f=p.f;
+ const th=x=>x.fid?`<div class="th" data-a="view" data-fid="${x.fid}" data-doc="${x.doc?1:0}">${x.doc?"📄":`<img data-fid="${x.fid}" alt="">`}</div>`:`<div class="th">🍽</div>`;
+ ov("sheet",`<div class="sh glass"><div class="bar"><button class="ic" data-a="x" data-v="sheet">✕</button><div><button class="ic" data-a="info" title="जानकारी">ⓘ</button> <button class="ic" data-a="edit" data-t="profile" data-k="${esc(p.k)}" data-m="${m}">✎</button></div></div>
+ <div class="hero"><div class="ph">${p.fid?`<img data-fid="${p.fid}" alt="">`:`<span>${esc((f.Name||"?")[0])}</span>`}</div><h2>${esc(f.Name)}</h2><p>📱 ${esc(m)}</p><div class="chips">${f.Age?`<span class="chip">${esc(f.Age)} वर्ष</span>`:""}${f.Weight?`<span class="chip">${esc(f.Weight)} kg</span>`:""}</div></div>
+ ${f.Issue?`<div class="sec"><h4>🩺 स्वास्थ्य समस्या</h4><p class="pre">${esc(f.Issue)}</p></div>`:""}
+ <div class="sec"><div class="hd"><h3>🥗 डाइट हिस्ट्री <em>${c.diets.length}</em></h3><button class="pill" data-a="add" data-t="diet" data-m="${m}">＋ डाइट</button></div>
+ ${c.diets.map(d=>`<div class="row">${th(d)}<div class="m"><b>${esc(d.f.Title||"डाइट प्लान")}</b><small>${fdate(d.f.Date)}</small></div><span class="fee ${num(d.f.Fee)?"":"free"}">${num(d.f.Fee)?inr(num(d.f.Fee)):"बिना फीस"}</span><button class="edit" data-a="edit" data-t="diet" data-k="${esc(d.k)}" data-m="${m}">✎</button></div>`).join("")||'<small style="color:var(--mut)">अभी कोई डाइट नहीं</small>'}</div>
+ <div class="sec"><div class="hd"><h3>💊 सप्लीमेंट्स <em>${c.supps.length}</em></h3><button class="pill" data-a="add" data-t="supp" data-m="${m}">＋ जोड़ें</button></div>
+ ${c.supps.map(s=>`<div class="row"><div class="m"><b>${esc(s.f.Name)}</b><small>${fdate(s.f.Date)}</small></div><span class="fee">${inr(num(s.f.Price))}</span><button class="edit" data-a="edit" data-t="supp" data-k="${esc(s.k)}" data-m="${m}">✎</button></div>`).join("")}${c.supps.length?`<div class="tot"><span>कुल सप्लीमेंट</span><span class="fee">${inr(c.sup)}</span></div>`:""}</div>
+ <div class="sec"><div class="hd"><h3>📝 नोट्स / एलर्जी <em>${c.notes.length}</em></h3><button class="pill" data-a="add" data-t="note" data-m="${m}">＋ नोट</button></div>
+ ${c.notes.map(n=>`<div class="row"><div class="m"><small>${fdate(n.f.Date)}</small><p>${esc(n.f.Text)}</p></div><button class="edit" data-a="edit" data-t="note" data-k="${esc(n.k)}" data-m="${m}">✎</button></div>`).join("")}</div></div>`)}
+function rInfo(){const c=cd(S.cur);ov("pop",`<div class="sh pp glass info"><div class="bar"><b>ⓘ क्लाइंट की जानकारी</b><button class="ic" data-a="x" data-v="pop">✕</button></div>
+ <div class="kv"><span>पहली बार आए</span><span>${fdate(c.first)}</span></div><div class="kv"><span>कुल डाइट प्लान</span><span>${c.diets.length}</span></div><div class="kv"><span>बिना फीस वाले</span><span>${c.free}</span></div>
+ <div class="kv"><span>फीस से कमाई</span><span>${inr(c.fees)}</span></div><div class="kv"><span>सप्लीमेंट से</span><span>${inr(c.sup)}</span></div><div class="kv"><span>कुल कलेक्शन</span><span>${inr(c.fees+c.sup)}</span></div></div>`)}
+function rHerb(){const h=byk(S.curH);if(!h){cl("sheet");return}const f=h.f,sc=(t,v)=>v?`<div class="sec"><h4>${t}</h4><p class="pre">${esc(v)}</p></div>`:"";
+ ov("sheet",`<div class="sh glass"><div class="bar"><button class="ic" data-a="x" data-v="sheet">✕</button><button class="ic" data-a="edit" data-t="herb" data-k="${esc(h.k)}">✎</button></div>
+ ${h.fid?`<div class="ph" style="aspect-ratio:16/10;border-radius:22px"><img data-fid="${h.fid}" alt=""></div>`:""}<h2 style="margin:6px 0">${esc(f.Name)}</h2>
+ <div class="chips">${(f.tags||"").split(", ").filter(Boolean).map(t=>`<span class="chip on">#${esc(t)}</span>`).join("")}</div>
+ ${sc("🌱 फ़ायदे और प्रभाव",f.Benefits)}${sc("⚗️ कॉम्बिनेशन / फॉर्मूला",f.Formula)}${sc("📈 रिज़ल्ट्स / अनुभव",f.Results)}${sc("🔎 अन्य नाम",f.Keywords)}</div>`)}
+function refresh(){list();if($("#sheet").classList.contains("show"))S.tab=="clients"?rClient():rHerb()}
+
+/* ---- Form ---- */
+function openForm(type,o={}){F={type,...o};const r=o.rec,f=r?r.f:{};
+ const h=FD[type].map(([k,l,t,q])=>{if(t=="file"&&r)return"";const v=k=="Date"?(f.Date||today()):k=="tags"?(f.tags||""):(f[k]??(k=="mob"?(r?r.mob:""):""));
+  const inp=t=="area"?`<textarea id="f_${k}" rows="3">${esc(v)}</textarea>`:t=="file"?`<input id="f_${k}" type="file" accept="${type=="diet"?"image/*,application/pdf":"image/*"}">`:`<input id="f_${k}" type="${t}" ${t=="number"?'inputmode="decimal" step="any"':""} value="${esc(v)}" ${k=="mob"&&r?"readonly":""}>`;
+  return`<label>${l}${q?" *":""}</label>${inp}`}).join("");
+ ov("modal",`<div class="sh fm glass"><div class="bar"><b>${r?"बदलाव करें":TT[type]}</b><button class="ic" data-a="x" data-v="modal">✕</button></div>${h}<div class="acts"><button class="btn" id="sv" data-a="save">💾 सेव करें</button>${r?'<button class="btn dg" data-a="rm">हटाएँ</button>':""}</div>${r?'<p class="hint">बदलाव Telegram के मूल मैसेज में भी अपडेट होगा।</p>':""}</div>`)}
+async function save(){const {type,rec}=F,f={};const b=$("#sv");
+ for(const [k,l,t,q] of FD[type]){if(t=="file")continue;f[k]=($("#f_"+k)?.value||"").trim();if(q&&!f[k])return toast("भरें: "+l)}
+ if(type=="profile"){f.mob=f.mob.replace(/\D/g,"");if(f.mob.length<7)return toast("सही मोबाइल नंबर डालें");if(!rec&&S.recs.some(r=>r.type=="profile"&&r.mob==f.mob))return toast("यह नंबर पहले से मौजूद है")}else if(type!="herb")f.mob=F.mob;
+ const file=$("#f_file")?.files[0];if(type=="diet"&&!rec&&!file)return toast("डाइट की फोटो/PDF चुनें");
+ if(type=="herb"&&rec)f.tags=f.tags;
+ const chat=type=="herb"?HERBAL_CHANNEL_ID:CLIENT_CHANNEL_ID,c=cap(type,f);
+ b.disabled=true;b.textContent="भेज रहा हूँ…";
+ try{let n;
+  if(rec){const media=!!rec.fid;try{await api(media?"editMessageCaption":"editMessageText",media?{chat_id:rec.chat,message_id:rec.mid,caption:c}:{chat_id:rec.chat,message_id:rec.mid,text:c})}catch(e){if(!/not modified/i.test(e.message))throw e}
+   n={...rec,f:{...f}}}
+  else{let r;if(file){if(c.length>1024)throw new Error("टेक्स्ट बहुत लंबा (फोटो के साथ 1024 अक्षर तक)");const fd=new FormData(),img=/^image\//.test(file.type)&&file.size<9e6;fd.append("chat_id",chat);fd.append("caption",c);fd.append(img?"photo":"document",file);r=await api(img?"sendPhoto":"sendDocument",0,fd)}
+   else{if(c.length>4096)throw new Error("टेक्स्ट बहुत लंबा");r=await api("sendMessage",{chat_id:chat,text:c})}
+   n=parse(c,r,chat);n.f=f;if(!n.mob&&type!="herb")n.mob=f.mob}
+  await put(n);const i=S.recs.findIndex(x=>x.k==n.k);i<0?S.recs.push(n):S.recs[i]=n;
+  cl("modal");refresh();toast("✅ सेव हो गया")}
+ catch(e){toast("❌ "+e.message)}finally{b.disabled=false;b.textContent="💾 सेव करें"}}
+async function rm(){const r=F.rec;if(!r||!confirm("यह एंट्री Telegram और यहाँ से हमेशा के लिए हट जाएगी। पक्का?"))return;
+ try{await api("deleteMessage",{chat_id:r.chat,message_id:r.mid});await del(r.k);S.recs=S.recs.filter(x=>x.k!=r.k);cl("modal");if(r.type=="profile")cl("sheet");refresh();toast("हटा दिया")}catch(e){toast("❌ "+e.message)}}
+
+/* ---- Sync (Telegram → local index) ---- */
+async function sync(manual){setSt("सिंक हो रहा…");
+ try{let off=(await mget("off"))||0,n=0;
+  for(let i=0;i<30;i++){const u=await api("getUpdates",{offset:off?off+1:undefined,limit:100,timeout:0,allowed_updates:["channel_post","edited_channel_post"]});if(!u.length)break;
+   for(const x of u){off=Math.max(off,x.update_id);const m=x.channel_post||x.edited_channel_post;if(!m)continue;const ch=String(m.chat.id);if(ch!=CLIENT_CHANNEL_ID&&ch!=HERBAL_CHANNEL_ID)continue;const r=parse(m.caption||m.text,m,ch);if(r){await put(r);n++}}
+   await mset("off",off)}
+  S.recs=await all();setSt(n?`${n} नए अपडेट मिले`:"अप-टू-डेट ✓");if(n||manual)refresh();if(manual)toast(n?`${n} अपडेट मिले`:"सब अप-टू-डेट है")}
+ catch(e){setSt("सिंक विफल");if(manual)toast("❌ "+e.message)}}
+
+/* ---- Backup ---- */
+function exp(){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(S.recs)],{type:"application/json"}));a.download="aarogya-backup-"+today()+".json";a.click()}
+async function imp(e){try{const l=JSON.parse(await e.target.files[0].text());for(const r of l)if(r&&r.k)await put(r);S.recs=await all();refresh();toast("बैकअप लोड हो गया ✅")}catch(x){toast("❌ गलत बैकअप फ़ाइल")}}
+async function view(d){try{const u=await furl(d.fid);if(d.doc=="1")window.open(u,"_blank");else{ov("viewer",`<img class="big" src="${u}" alt="">`)}}catch(e){toast("❌ "+e.message)}}
+
+/* ---- Events ---- */
+document.addEventListener("click",e=>{const t=e.target.closest("[data-a]");if(!t)return;const d=t.dataset;
+ ({tab:()=>{S.tab=d.v;shell()},sync:()=>sync(true),new:()=>openForm(S.tab=="clients"?"profile":"herb"),
+ open:()=>{S.cur=d.m;rClient()},herb:()=>{S.curH=d.k;rHerb()},x:()=>cl(d.v),add:()=>openForm(d.t,{mob:d.m}),
+ edit:()=>openForm(d.t,{rec:byk(d.k),mob:d.m}),info:rInfo,view:()=>view(d),save,rm,exp,
+ tag:()=>{S.tag=S.tag==d.v?"":d.v;list()}})[d.a]?.()});
+
+(async()=>{shell();try{S.recs=await all()}catch(e){toast("ब्राउज़र स्टोरेज उपलब्ध नहीं")}S.loading=false;list();await sync(false);S.loading=false;list()})();
+</script></body></html>
