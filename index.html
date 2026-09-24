@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0e231b">
+<title>Rajeev Malik</title>
+<link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="logo.png"><link rel="apple-touch-icon" href="logo.png">
+<meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rajeev Malik"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<style>
+:root{--bg:#0e231b;--s1:#153126;--s2:#1b3b2f;--s3:#24493b;--ln:rgba(238,228,204,.11);--tx:#efe7d3;--mu:#9bb0a3;--gd:#cba85f;--er:#e07d6e;--ok:#83c39c;--ease:cubic-bezier(.22,1,.36,1);--spr:cubic-bezier(.34,1.45,.64,1);--sab:env(safe-area-inset-bottom,0px);--sat:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{background:var(--bg);color:var(--tx);font:14px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans",sans-serif;-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100vh;min-height:100dvh;padding-bottom:calc(96px + var(--sab));overscroll-behavior-y:none}
+body.ovl{overflow:hidden}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;touch-action:manipulation}
+h2,h3,p{margin:0}
+.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.top{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:10px;padding:calc(10px + var(--sat)) 12px 10px;background:rgba(14,35,27,.86);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border-bottom:1px solid var(--ln)}
+body.ovl .top{-webkit-backdrop-filter:none;backdrop-filter:none;background:var(--bg)}
+.brand{display:flex;align-items:center;gap:8px;color:var(--gd);min-width:96px}
+.brand b{display:block;font-size:16px;color:var(--tx);line-height:1.1}
+.brand small{display:block;font-size:12px;color:var(--mu);min-height:15px;max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.seg{position:relative;flex:1;display:flex;background:var(--s1);border-radius:12px;padding:3px}
+.seg i{position:absolute;top:3px;bottom:3px;left:3px;width:calc(50% - 3px);border-radius:9px;background:var(--s3);transition:transform .4s var(--spr)}
+.seg[data-t=h] i{transform:translateX(100%)}
+.seg button{position:relative;flex:1;padding:7px 0;font-weight:600;color:var(--mu);transition:color .2s}
+.seg[data-t=c] button:first-of-type,.seg[data-t=h] button:last-of-type{color:var(--tx)}
+.ib{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;color:var(--mu);flex:none;transition:transform .25s var(--spr),background .2s}
+.ib:active{transform:scale(.88);background:var(--s2)}
+main{max-width:760px;margin:0 auto;padding:0 12px}
+.pane{display:none}.pane.on{display:block}
+.srch{display:flex;align-items:center;gap:10px;height:46px;margin:12px 0;padding:0 14px;background:var(--s1);border:1px solid var(--ln);border-radius:14px;color:var(--mu)}
+.srch input{flex:1;min-width:0;background:none;border:0;outline:0;padding:0;color:var(--tx);font:inherit;font-size:16px}
+.srch input::placeholder{color:var(--mu)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media(min-width:560px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.card{display:flex;flex-direction:column;align-items:center;justify-content:center;height:172px;padding:14px 8px;background:var(--s1);border:1px solid var(--ln);border-radius:18px;box-shadow:0 3px 10px rgba(0,0,0,.16);cursor:pointer;content-visibility:auto;contain-intrinsic-size:auto 172px;contain:layout paint style;transition:transform .3s var(--spr)}
+.card:active{transform:scale(.97)}
+.card b{max-width:100%;margin-top:10px;font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card small{font-size:12px;color:var(--gd)}
+.av{--sz:88px;position:relative;flex:none;width:var(--sz);height:var(--sz);border-radius:50%;overflow:hidden;background:linear-gradient(140deg,#2d6a52,#8d7841);display:grid;place-items:center;color:rgba(255,255,255,.72);font-weight:600;font-size:calc(var(--sz)*.4)}
+.av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s}
+img.in{opacity:1!important}
+.rise{animation:rise .5s var(--ease) backwards;animation-delay:calc(var(--i)*35ms)}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}}
+.empty{padding:56px 10px;text-align:center;color:var(--mu)}
+.fab{position:fixed;right:16px;bottom:calc(18px + var(--sab));z-index:6;width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:var(--gd);color:#1a2a20;box-shadow:0 8px 20px rgba(0,0,0,.35);transition:transform .3s var(--spr)}
+.fab .i{width:24px;height:24px;stroke-width:2}
+.fab:active{transform:scale(.9)}
+body.ovl .fab{transform:scale(0);pointer-events:none}
+/* herbal */
+.ctl{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.seg2{display:flex;background:var(--s1);border-radius:10px;padding:2px}
+.seg2 button{padding:5px 12px;border-radius:8px;color:var(--mu);font-weight:600;transition:background .2s,color .2s}
+.seg2 .on{background:var(--s3);color:var(--tx)}
+.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px 0 10px}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;background:var(--s1);border:1px solid var(--ln);color:var(--tx);white-space:nowrap;transition:transform .2s var(--spr),background .2s}
+.chip:active{transform:scale(.94)}
+.chip.on{background:var(--gd);border-color:var(--gd);color:#1a2a20;font-weight:600}
+.chip .i{width:14px;height:14px}
+.notes{display:flex;flex-direction:column;gap:10px}
+.note{display:flex;align-items:center;gap:12px;height:88px;padding:0 6px 0 14px;background:var(--s1);border:1px solid var(--ln);border-radius:16px;cursor:pointer;content-visibility:auto;contain-intrinsic-size:auto 88px;contain:layout paint style;transition:transform .3s var(--spr)}
+.note:active{transform:scale(.985)}
+.note .m{flex:1;min-width:0}
+.note b{display:block;font-size:16px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.note p{color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-height:20px}
+.note .tg{display:block;color:var(--gd);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-height:17px}
+.star{color:var(--mu)}.star.on{color:var(--gd)}.star.on .i{fill:currentColor}
+.sq{width:60px;height:60px;border-radius:12px!important;margin-right:6px}
+.az{height:28px;padding:8px 4px 0;color:var(--gd);font-weight:600}
+/* overlays */
+.ov{position:fixed;inset:0;z-index:20;display:flex;align-items:flex-end;justify-content:center}
+.scrim{position:absolute;inset:0;background:rgba(4,14,10,.62);animation:fade .25s backwards}
+.ov.tp.mod .scrim{-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.sh{position:relative;display:flex;flex-direction:column;width:100%;max-width:640px;max-height:94vh;max-height:94dvh;background:var(--s1);border:1px solid var(--ln);border-bottom:0;border-radius:24px 24px 0 0;padding-bottom:var(--sab);animation:up .5s var(--ease) backwards;will-change:transform}
+.sh.full{height:96vh;height:96dvh}
+.sh.sm{max-width:480px}
+.ov.nov .sh{animation:none}
+.ov.out .sh{animation:down .26s var(--ease) forwards}
+.ov.out .scrim{animation:fadeo .26s forwards}
+@keyframes up{from{transform:translateY(100%)}}
+@keyframes down{to{transform:translateY(100%)}}
+@keyframes fade{from{opacity:0}}
+@keyframes fadeo{to{opacity:0}}
+.grab{flex:none;touch-action:none;cursor:grab}
+.grab:before{content:"";display:block;width:38px;height:4px;margin:8px auto 0;border-radius:2px;background:rgba(238,228,204,.25)}
+.hd{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:4px;padding:0 10px 4px}
+.hd:before{flex:0 0 100%}
+.hd .ttl,.hd>b{flex:1;min-width:0;text-align:center;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sc{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:0 16px 24px}
+.cf{padding:18px 18px 20px}.cf h3{font-size:16px;margin-bottom:6px}.cf p{color:var(--mu)}
+.hero{display:flex;flex-direction:column;align-items:center;text-align:center;padding:4px 0 8px}
+.hero .av{--sz:112px}
+.hero h2{margin:14px 0 2px;font-size:22px;font-weight:650}
+.sub{color:var(--gd)}
+.tags{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:10px}
+.tags span{padding:3px 10px;border-radius:999px;background:var(--s3);font-size:12px}
+.sec{margin-top:14px;padding:12px 14px 6px;background:var(--s2);border:1px solid var(--ln);border-radius:18px}
+.sec-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:2px}
+.sec-h h3{font-size:14px;font-weight:600;color:var(--mu)}
+.sec-h em{font-style:normal;color:var(--tx);margin-left:6px}
+.pill{display:inline-flex;align-items:center;gap:4px;padding:6px 12px;border-radius:999px;background:var(--gd);color:#1a2a20;font-weight:600;transition:transform .25s var(--spr)}
+.pill:active{transform:scale(.93)}
+.pill .i{width:14px;height:14px;stroke-width:2.2}
+.row{display:flex;align-items:center;gap:12px;min-height:76px;padding:6px 0;border-top:1px solid var(--ln)}
+.row:first-child{border-top:0}
+.row.s{min-height:60px}
+.row .m{flex:1;min-width:0}
+.row .m b{display:block;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row .m small{color:var(--mu);font-size:12px}
+.row .m p{white-space:pre-wrap;word-break:break-word}
+.row .ib{width:34px;height:34px}
+.fee{font-weight:600;color:var(--gd);white-space:nowrap}.fee.free{color:var(--mu);font-weight:400}
+.th{position:relative;flex:none;width:52px;height:64px;border-radius:10px;background:var(--s3);overflow:hidden;display:grid;place-items:center;color:var(--mu)}
+.th img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s}
+.pg{position:absolute;right:3px;bottom:3px;min-width:18px;padding:0 5px;border-radius:6px;background:rgba(0,0,0,.65);font-size:12px;text-align:center}
+.tot{display:flex;justify-content:space-between;padding:10px 0;border-top:1px dashed var(--ln);font-weight:600}
+.sk{background:var(--s3);border-radius:6px;animation:pulse 1.3s infinite}
+.sk.l1{height:14px;width:60%;margin-bottom:8px}.sk.l2{height:12px;width:35%}
+.th.sk{border-radius:10px}
+@keyframes pulse{50%{opacity:.45}}
+.note-i{color:var(--mu);padding:10px 0;min-height:40px}
+.retry{color:var(--gd);text-decoration:underline}
+/* forms */
+label{display:block;margin:14px 0 6px;font-size:12px;color:var(--mu)}
+input,textarea{width:100%;background:var(--bg);border:1px solid var(--ln);border-radius:12px;padding:12px 14px;color:var(--tx);font:inherit;font-size:16px;outline:0;transition:border-color .2s}
+input:focus,textarea:focus{border-color:var(--gd)}
+input[readonly]{opacity:.6}
+textarea{resize:vertical;min-height:84px}
+.dt{display:flex;gap:8px;align-items:center}.dt input{flex:1;min-width:0}
+.acts{display:flex;gap:10px;margin-top:22px}
+.btn{flex:1;padding:13px;border-radius:14px;background:var(--gd);color:#1a2a20;font-weight:650;font-size:16px;transition:transform .25s var(--spr),opacity .2s}
+.btn:active{transform:scale(.97)}.btn:disabled{opacity:.55}
+.btn.ghost{background:var(--s3);color:var(--tx)}
+.btn.dg{flex:.55;background:transparent;border:1px solid var(--er);color:var(--er)}
+.pick{display:flex;justify-content:center;padding-top:14px}
+.pick .av{--sz:96px;border:1px dashed rgba(238,228,204,.35);background:var(--s2);color:var(--mu)}
+.pick .av img{opacity:1}
+.fr{display:flex;align-items:center;gap:12px;padding:8px 0;border-top:1px solid var(--ln)}
+.fr .th{width:44px;height:56px}
+.fr .m{flex:1;min-width:0}.fr b{display:block;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.fr small{color:var(--mu);font-size:12px}
+.pb{height:5px;margin-top:6px;border-radius:3px;background:var(--s3);overflow:hidden;display:none}
+.up .pb{display:block}
+.pb i{display:block;height:100%;background:var(--gd);transform-origin:0 50%;transform:scaleX(0);transition:transform .2s linear}
+#upl{margin-top:16px}#upl small{color:var(--mu)}
+.err{margin-top:12px;color:var(--er)}
+.tb{width:100%;border-collapse:collapse;margin-top:6px}
+.tb th,.tb td{padding:8px 4px;text-align:right;border-bottom:1px solid var(--ln)}
+.tb th:first-child,.tb td:first-child{text-align:left}.tb th{color:var(--mu);font-weight:500;font-size:12px}
+.tb tfoot td{font-weight:650;color:var(--gd);border:0}
+.kv{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--ln)}
+.kv span:first-child{color:var(--mu)}.kv.big{border:0;font-weight:650;color:var(--gd)}
+.dgr{display:flex;gap:8px;align-items:center;padding:6px 0}.dgr .i{width:16px;height:16px}.dgr.ok .i{color:var(--ok)}.dgr.no .i{color:var(--er)}.dgr small{color:var(--mu);word-break:break-word}
+.set-b{display:flex;align-items:center;justify-content:space-between;width:100%;padding:14px 0;border-bottom:1px solid var(--ln);text-align:left}
+.set-b small{color:var(--mu);display:block;font-size:12px}
+/* crop */
+.crop{position:relative;width:min(80vw,320px);aspect-ratio:1;margin:12px auto;overflow:hidden;touch-action:none;background:#000;border-radius:16px}
+.crop canvas{position:absolute;left:0;top:0;transform-origin:0 0;max-width:none}
+.mk{position:absolute;inset:8%;border-radius:50%;box-shadow:0 0 0 400px rgba(6,16,12,.66);border:2px solid rgba(255,255,255,.75);pointer-events:none}
+/* viewer */
+.sh.vw{max-width:none;height:100vh;height:100dvh;max-height:none;border:0;border-radius:0;background:#050c09;animation:fade .25s backwards}
+.vbar{display:flex;align-items:center;justify-content:space-between;padding:calc(6px + var(--sat)) 10px 6px;color:#fff}
+.vbar:before{display:none}
+.pager{flex:1;min-height:0;display:flex;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior:contain;scrollbar-width:none}
+.pager::-webkit-scrollbar{display:none}
+.slide{position:relative;flex:0 0 100%;scroll-snap-align:center;scroll-snap-stop:always;overflow:hidden;touch-action:pan-x;display:grid;place-items:center}
+.zm{position:absolute;inset:0;transform-origin:50% 50%;will-change:transform}
+.zm img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;-webkit-user-drag:none;user-select:none}
+.zm img.lo{filter:blur(12px);transform:scale(1.02)}
+.zm img.hi{opacity:0;transition:opacity .4s}
+.vmsg{color:var(--mu);text-align:center;padding:24px}
+.spin{width:26px;height:26px;border-radius:50%;border:2px solid rgba(255,255,255,.2);border-top-color:var(--gd);animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.hphoto{position:relative;aspect-ratio:16/10;border-radius:18px;overflow:hidden;background:var(--s3);margin-bottom:12px}
+.hphoto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hphoto img.lo{filter:blur(10px);transform:scale(1.05)}
+.hphoto img.hi{opacity:0;transition:opacity .4s}
+.hsec{margin-top:12px;padding:12px 14px;background:var(--s2);border:1px solid var(--ln);border-radius:16px}
+.hsec h4{margin:0 0 4px;font-size:12px;font-weight:500;color:var(--mu)}
+.hsec p{white-space:pre-wrap;word-break:break-word;line-height:1.55}
+#toast{position:fixed;left:50%;bottom:calc(88px + var(--sab));z-index:99;max-width:88%;padding:10px 16px;border-radius:14px;background:#08130e;border:1px solid var(--ln);text-align:center;opacity:0;transform:translate(-50%,12px);pointer-events:none;transition:opacity .25s,transform .4s var(--spr)}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.22s}
+::view-transition-group(pav){animation-duration:.42s;animation-timing-function:cubic-bezier(.22,1,.36,1)}
+.pane.fx{animation:fade .3s var(--ease)}
+.hd{touch-action:none}
+.slide.z{touch-action:none}.zm.t{transition:transform .28s var(--ease)}
+.cf .btn.dg{flex:1;background:var(--er);border:0;color:#2a0f0a}
+.set-b .i{color:var(--mu)}
+.dt .chip{padding:9px 12px}
+.fr .ib{width:34px;height:34px}
+.fr .pb{margin-top:8px}
+.warn{color:var(--gd)!important}
+.pick .av>span{display:grid;place-items:center}
+.pick .av>span .i{width:26px;height:26px}
+.pick{flex-direction:column;align-items:center;gap:8px}.pick small{color:var(--mu);min-height:17px}
+.card.skc .av{animation:pulse 1.3s infinite;background:var(--s3)}
+.card.skc .sk{margin-top:12px;height:12px;width:60%}
+#more{height:1px}
+.cnt{color:var(--mu);font-size:12px;padding:0 2px 8px}
+.hero .av span{font-size:44px}
+.vmsg .btn{display:inline-block;margin-top:12px;padding:10px 22px;flex:none}
+.vmsg{position:absolute;inset:0;display:grid;place-items:center;align-content:center;pointer-events:none}
+.vmsg .btn{pointer-events:auto}
+.pager .slide{min-height:0}
+.ttl.sm{font-size:14px}
+.bn{position:fixed;left:12px;right:12px;top:calc(env(safe-area-inset-top,0px) + 66px);z-index:30;background:var(--s2);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:10px 12px;box-shadow:0 8px 24px rgba(0,0,0,.35)}
+.bn .bt{display:flex;justify-content:space-between;align-items:center;font-size:13px;gap:10px}.bn button{color:var(--gd);background:none;border:0;font:inherit;padding:4px 8px}.bn .pb{margin-top:8px}.bn small{color:var(--mu);font-size:11px}
+.fls{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.chip.sm{padding:5px 10px;font-size:12px}.fee small{display:block;font-size:11px;color:var(--mu);text-align:right}
+.chiprow{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}.chiprow.scr{max-height:140px;overflow:auto;overscroll-behavior:contain}.kv.sub{padding-left:14px;font-size:13px;color:var(--mu)}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important}}
+.tel{color:inherit;text-decoration:none}#paddr{margin-top:2px}.more{margin:4px 0 10px}
+</style></head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+<symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+<symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.6v.01"/></symbol>
+<symbol id="i-edit" viewBox="0 0 24 24"><path d="M4 20l1-4L16.5 4.5a2.1 2.1 0 0 1 3 3L8 19z"/><path d="M14.5 6.5l3 3"/></symbol>
+<symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3.6l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 17l-5.2 2.8 1-5.9L3.5 9.8l5.9-.8z"/></symbol>
+<symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v2.5M12 18.5V21M3 12h2.5M18.5 12H21M5.6 5.6l1.8 1.8M16.6 16.6l1.8 1.8M5.6 18.4l1.8-1.8M16.6 7.4l1.8-1.8"/></symbol>
+<symbol id="i-camera" viewBox="0 0 24 24"><path d="M4 8h3l1.5-2h7L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></symbol>
+<symbol id="i-leaf" viewBox="0 0 24 24"><path d="M5 19c0-8 5-13 14-14 0 9-5 14-13 14"/><path d="M5 19c3-4 6-6 9-8"/></symbol>
+<symbol id="i-image" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="2"/><circle cx="9" cy="10" r="1.5"/><path d="M4 16l5-4 4 3 3-2 4 3"/></symbol>
+<symbol id="i-file" viewBox="0 0 24 24"><path d="M7 3.5h7l4 4V20.5H7z"/><path d="M14 3.5v4h4"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></symbol>
+</defs></svg>
+
+<header class="top">
+ <div class="brand"><svg class="i" style="width:24px;height:24px"><use href="#i-leaf"/></svg><div><b>Rajeev Malik</b><small id="st"></small></div></div>
+ <nav class="seg" id="seg" data-t="c"><i></i><button data-a="tab" data-v="c">Clients</button><button data-a="tab" data-v="h">Formulas</button></nav>
+ <button class="ib" data-a="settings" aria-label="Settings"><svg class="i"><use href="#i-gear"/></svg></button>
+</header>
+<main>
+ <section id="pc" class="pane on">
+  <div class="srch"><svg class="i"><use href="#i-search"/></svg><input id="q" inputmode="numeric" autocomplete="off" placeholder="Search by mobile number"></div>
+  <div class="grid" id="grid"></div>
+  <div id="more"></div>
+  <div class="empty" id="ec" hidden></div>
+ </section>
+ <section id="ph" class="pane">
+  <div class="srch"><svg class="i"><use href="#i-search"/></svg><input id="hq" autocomplete="off" placeholder="Search formulas, tags, other names"></div>
+  <div class="ctl"><div class="seg2" id="sortseg"><button class="on" data-a="sort" data-v="new">Newest</button><button data-a="sort" data-v="az">A–Z</button></div><button class="chip" id="favf" data-a="favf"><svg class="i"><use href="#i-star"/></svg>Favourites</button></div>
+  <div class="chips" id="tagrow"></div>
+  <div class="notes" id="hlist"></div>
+  <div class="empty" id="eh" hidden></div>
+ </section>
+</main>
+<button class="fab" id="fab" data-a="new" aria-label="Add"><svg class="i"><use href="#i-plus"/></svg></button>
+<div id="layers"></div>
+<div id="toast" role="status"></div>
+<script>
+"use strict";
+/* ============ CONFIG ============ */
+const BOT_TOKEN = "8957893655:AAHo9nB9qAmNZiBLEvsk_UabK0kgQ_No6zE";
+const PROFILE_CHANNEL_ID = "-1004483672825"; // client cards + index (bot must be channel admin: post, edit, delete, pin)
+const DIET_CHANNEL_ID = "-1004295423560"; // diet charts, supplements, notes
+const FORMULA_CHANNEL_ID = "-1003973993786"; // formulas / medicines
+const SYNC_GROUP_ID = "-5324190919"; // old group, now only the scratch chat used for reading (bot must stay in it)    // scratch chat used for reading; put a separate private group here if you make one
+/* ================================== */
+const CH = { c: PROFILE_CHANNEL_ID, h: FORMULA_CHANNEL_ID, d: DIET_CHANNEL_ID };
+const PAGE_MAX = 3800, ROW = { c: "prof", h: "herb" };
+
+/* ---------- helpers ---------- */
+const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const el = h => { const t = document.createElement("template"); t.innerHTML = h.trim(); return t.content.firstElementChild };
+const ic = (n, c = "") => `<svg class="i ${c}" aria-hidden="true"><use href="#i-${n}"/></svg>`;
+const RM = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const iso = d => new Date(d - d.getTimezoneOffset() * 6e4).toISOString().slice(0, 10);
+const today = () => iso(new Date());
+const yest = () => { const d = new Date(); d.setDate(d.getDate() - 1); return iso(d) };
+const fdate = s => { if (!s) return "—"; if (s == today()) return "Today"; if (s == yest()) return "Yesterday"; const d = new Date(s + "T00:00"); return isNaN(d) ? s : d.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }) };
+const num = v => parseFloat(String(v || "").replace(/[^\d.]/g, "")) || 0;
+const inr = n => "₹" + Math.round(n).toLocaleString("en-IN");
+const mb = b => b >= 1048576 ? (b / 1048576).toFixed(1) + " MB" : Math.max(1, Math.round(b / 1024)) + " KB";
+const COL = new Intl.Collator("en", { sensitivity: "base", numeric: true });
+let tt; function toast(m, ms = 3400) { const t = $("#toast"); t.textContent = m; t.classList.add("on"); clearTimeout(tt); tt = setTimeout(() => t.classList.remove("on"), ms) }
+const setSt = t => { const s = $("#st"); if (s) s.textContent = t };
+const RQ = new Set(); const rq = fn => { if (RQ.has(fn)) return; RQ.add(fn); requestAnimationFrame(() => { RQ.delete(fn); fn() }) };
+const chain = (o, k, fn) => { const p = o[k].then(fn); o[k] = p.catch(() => { }); return p };
+
+/* ---------- IndexedDB: profiles + avatar blobs (+ small herb index & meta) ---------- */
+const DBP = new Promise((res, rej) => { try { const r = indexedDB.open("arogya2", 2); r.onupgradeneeded = () => { const d = r.result, mk = (n, o) => { if (!d.objectStoreNames.contains(n)) d.createObjectStore(n, o) }; mk("prof", { keyPath: "mob" }); mk("herb", { keyPath: "mid" }); mk("av"); mk("meta"); mk("rec") }; r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); r.onblocked = () => rej(new Error("blocked")) } catch (e) { rej(e) } });
+const idb = (st, mode, fn) => DBP.then(d => new Promise((res, rej) => { const t = d.transaction(st, mode); const q = fn(t.objectStore(st)); t.oncomplete = () => res(q && q.result); t.onerror = t.onabort = () => rej(t.error) })).catch(() => undefined);
+const mget = k => idb("meta", "readonly", s => s.get(k)), mset = (k, v) => idb("meta", "readwrite", s => s.put(v, k)), mdel = k => idb("meta", "readwrite", s => s.delete(k));
+
+/* ---------- Telegram API ---------- */
+class TGE extends Error { constructor(m, c, p) { super(m); this.code = c; this.params = p || {} } }
+const clean = s => String(s || "").split(BOT_TOKEN).join("•••");
+let onWait = null;
+async function api(method, p = {}) {
+  if (!navigator.onLine) throw new TGE("Offline", 0);
+  const body = new URLSearchParams();
+  for (const k in p) { const v = p[k]; if (v !== undefined && v !== null) body.set(k, typeof v == "object" ? JSON.stringify(v) : String(v)) }
+  for (let a = 0; ; a++) {
+    let j;
+    try { const r = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/${method}`, { method: "POST", body }); j = await r.json() }
+    catch (e) { if (a < 2 && navigator.onLine) { await sleep(700 * (a + 1)); continue } throw new TGE("Network error", 0) }
+    if (j.ok) return j.result;
+    if (j.error_code == 429 && a < 6) { const w = (j.parameters && j.parameters.retry_after) || 5; Q.penalty(); onWait && onWait(w); await sleep(w * 1000 + 400); onWait && onWait(0); continue }
+    throw new TGE(clean(j.description || "Telegram error"), j.error_code, j.parameters)
+  }
+}
+function xhrPost(method, fd, onp, ctl) {
+  return new Promise((res, rej) => {
+    const x = new XMLHttpRequest(); x.open("POST", `https://api.telegram.org/bot${BOT_TOKEN}/${method}`); x.responseType = "json";
+    x.upload.onprogress = e => e.lengthComputable && onp && onp(e.loaded, e.total);
+    x.onload = () => { const j = x.response; if (j && j.ok) res(j.result); else rej(new TGE(clean((j && j.description) || "Upload failed"), x.status, j && j.parameters)) };
+    x.onerror = () => rej(new TGE("Network error", 0)); x.ontimeout = () => rej(new TGE("Timed out", 0)); x.onabort = () => rej(new TGE("Cancelled", -1));
+    if (ctl) ctl.abort = () => x.abort();
+    x.send(fd)
+  })
+}
+async function upload(method, fd, onp, ctl) { for (let a = 0; ; a++) { try { return await xhrPost(method, fd, onp, ctl) } catch (e) { if (e.code == 429 && a < 2) { await sleep(((e.params && e.params.retry_after) || 5) * 1000 + 400); continue } throw e } } }
+
+/* Serial, paced queue for everything that posts into the sync group (Bot API: ~20 msgs/min per group) */
+const Q = {
+  items: [], busy: false, gap: 1000, last: 0, streak: 0, seq: 0,
+  add(fn, prio = 1, skip) { return new Promise((res, rej) => { this.items.push({ fn, prio, skip, res, rej, s: this.seq++ }); this.pump() }) },
+  async pump() {
+    if (this.busy) return; this.busy = true;
+    while (this.items.length) {
+      this.items.sort((a, b) => a.prio - b.prio || a.s - b.s); const t = this.items.shift();
+      if (t.skip && t.skip()) { t.res(null); continue }
+      const w = this.last + this.gap - Date.now(); if (w > 0) await sleep(w);
+      this.last = Date.now();
+      try { t.res(await t.fn()); if (++this.streak > 25) { this.gap = Math.max(1000, this.gap * .9); this.streak = 0 } } catch (e) { t.rej(e) }
+    }
+    this.busy = false
+  },
+  penalty() { this.gap = Math.min(3200, this.gap * 1.6 + 200); this.streak = 0 }
+};
+const DEL = { l: [], t: 0, push(id) { this.l.push(id); if (!this.t) this.t = setTimeout(() => this.run(), 700) },
+  async run() { this.t = 0; while (this.l.length) { const b = this.l.splice(0, 100); try { await api("deleteMessages", { chat_id: SYNC_GROUP_ID, message_ids: b }) } catch (e) { for (const id of b) { try { await api("deleteMessage", { chat_id: SYNC_GROUP_ID, message_id: id }) } catch (_) { } } } } } };
+const gone = e => e && e.code == 400 && /not found|can't be forwarded|MESSAGE_ID_INVALID|message to forward/i.test(e.message);
+async function fwd(chan, id, prio = 1, skip) {
+  const m = await Q.add(() => api("forwardMessage", { chat_id: SYNC_GROUP_ID, from_chat_id: chan, message_id: id, disable_notification: true }), prio, skip);
+  if (m) DEL.push(m.message_id); return m
+}
+
+/* ---------- caption format ---------- */
+const T = { profile: { tag: "Profile", keys: ["Name", "Age", "Weight", "Address", "Issue", "Date"] }, diet: { tag: "Diet", keys: ["Date", "To", "Wt", "Fee", "Reason", "Title", "Formulas", "Pages"] }, supp: { tag: "Supplement", keys: ["Name", "Price", "Date"] }, note: { tag: "Note", keys: ["Text", "Date"] }, herb: { tag: "Herb", keys: ["Name", "Ingredients", "Benefits", "Formula", "Results", "Keywords"] } };
+const ALLK = [...new Set(Object.values(T).flatMap(t => t.keys))];
+const TM = { profile: "profile", diet: "diet", supplement: "supp", note: "note", herb: "herb" };
+const us = s => String(s).trim().replace(/#/g, "").replace(/\s+/g, "_");
+const snip = s => (s || "").replace(/\s+/g, " ").trim().slice(0, 70);
+function cap(type, f) {
+  let h = "#" + T[type].tag;
+  if (type == "herb") { h += " #Name_" + us(f.Name); (f.tags || "").split(/[,،]+/).map(s => s.trim()).filter(Boolean).forEach(t => h += " #Tag_" + us(t)) } else h += " #Mob_" + f.mob;
+  return h + "\n" + T[type].keys.filter(k => f[k]).map(k => k + ": " + f[k]).join("\n")
+}
+function parseCap(txt) {
+  if (!txt) return null; const lines = txt.split("\n");
+  const tags = [...lines[0].matchAll(/#([^\s#]+)/g)].map(m => m[1]); const type = TM[(tags[0] || "").toLowerCase()]; if (!type) return null;
+  const f = {}; let cur = null;
+  lines.slice(1).forEach(l => { const m = l.match(/^([A-Za-z]+):\s?(.*)$/); if (m && ALLK.includes(m[1])) { cur = m[1]; f[cur] = m[2] } else if (cur) f[cur] += "\n" + l });
+  const mob = tags.find(x => /^Mob_/i.test(x));
+  const tagList = tags.filter(x => /^Tag_/i.test(x)).map(x => x.slice(4).replace(/_/g, " "));
+  if (type == "herb" && !f.Name) { const n = tags.find(x => /^Name_/i.test(x)); f.Name = n ? n.slice(5).replace(/_/g, " ") : "Untitled" }
+  return { type, f, mob: mob ? mob.slice(4) : "", tagList }
+}
+function mediaOf(m) {
+  if (m.photo && m.photo.length) { const p = m.photo; const sm = p.find(x => x.width >= 300) || p[p.length - 1]; return { kind: "photo", thumb: sm.file_id, full: p[p.length - 1].file_id, size: p[p.length - 1].file_size } }
+  if (m.document) { const d = m.document, mt = d.mime_type || ""; return { kind: /pdf/i.test(mt) ? "pdf" : /^image\//i.test(mt) ? "img" : "doc", full: d.file_id, thumb: (d.thumbnail && d.thumbnail.file_id) || "", name: d.file_name, size: d.file_size } }
+  return null
+}
+async function readRec(chan, id, prio, skip) {
+  const m = await fwd(chan, id, prio, skip); if (!m) return null;
+  const p = parseCap(m.caption || m.text || ""); return p ? { mid: id, type: p.type, f: p.f, tags: p.tagList, media: mediaOf(m), _v: 1 } : null
+}
+function scanInfo(m, mid) {
+  const txt = m.caption || m.text || "";
+  if (/^#IndexRoot/.test(txt)) return { type: "idxroot", mid };
+  if (/^#IndexPage/.test(txt)) return { type: "idxpage", mid };
+  const p = parseCap(txt); if (!p) return null; const md = mediaOf(m);
+  if (p.type == "herb") return { type: "herb", mid, name: p.f.Name, tags: p.tagList, kw: p.f.Keywords || "", bn: snip(p.f.Benefits), thumb: md ? md.thumb : "" };
+  if (!p.mob) return null;
+  if (p.type == "profile") return { type: "profile", mid, mob: p.mob, name: p.f.Name || "", age: p.f.Age || "", wt: p.f.Weight || "", date: p.f.Date || "", thumb: md ? md.thumb : "" };
+  return { type: p.type, mid, mob: p.mob }
+}
+
+/* ---------- index (lives in Telegram: 1 pinned root + text pages) ---------- */
+const cl = s => String(s ?? "").replace(/[|\n\r]/g, " ").replace(/\s+/g, " ").trim();
+const ids = s => s ? s.split(",").map(Number).filter(Boolean) : [];
+const KD = {
+  c: { key: "mob",
+    ser: e => [e.mob, cl(e.name), e.pid || "", e.av || "", cl(e.age), cl(e.wt), e.date || "", (e.d || []).join(","), (e.s || []).join(","), (e.n || []).join(",")].join("|"),
+    par: l => { const a = l.split("|"); return a[0] && a.length >= 10 ? { mob: a[0], name: a[1], pid: +a[2] || 0, av: a[3], age: a[4], wt: a[5], date: a[6], d: ids(a[7]), s: ids(a[8]), n: ids(a[9]) } : null } },
+  h: { key: "mid",
+    ser: e => [e.mid, cl(e.name), (e.tags || []).map(t => cl(t).replace(/;/g, " ")).join(";"), cl(e.kw).slice(0, 80), cl(e.bn).slice(0, 70), e.thumb || "", e.fav ? 1 : 0].join("|"),
+    par: l => { const a = l.split("|"); return +a[0] && a.length >= 7 ? { mid: +a[0], name: a[1], tags: a[2] ? a[2].split(";") : [], kw: a[3], bn: a[4], thumb: a[5], fav: a[6] == "1" } : null } }
+};
+const blank = (k, key) => k == "c" ? { mob: key, name: "", pid: 0, av: "", age: "", wt: "", date: "", d: [], s: [], n: [] } : { mid: key, name: "", tags: [], kw: "", bn: "", thumb: "", fav: false };
+const pageText = (v, lines) => `#IndexPage v${v}\n` + lines.join("\n");
+const rootText = (v, pages) => `#IndexRoot\nv: ${v}\np: ${pages.map(p => p.id + "." + p.ver).join(", ")}`;
+function parseRoot(t) { if (!/^#IndexRoot/.test(t || "")) return null; const v = +((t.match(/^v:\s*(\d+)/m) || [])[1]) || 0; const p = ((t.match(/^p:\s*(.*)$/m) || [])[1] || "").split(",").map(x => x.trim()).filter(Boolean).map(x => { const [i, vv] = x.split("."); return { id: +i, ver: +vv || 1 } }); return { v, pages: p } }
+function parsePage(t) { const l = (t || "").split("\n"); if (!/^#IndexPage/.test(l[0])) return null; return { ver: +((l[0].match(/v(\d+)/) || [])[1]) || 1, lines: l.slice(1).filter(Boolean) } }
+const ne = e => { if (!/not modified/i.test(e.message)) throw e };
+
+const S = { tab: "c", m: { c: new Map(), h: new Map() }, q: "", hq: "", tag: "", sort: "new", fav: false, cur: null, curH: null, limit: 40, intro: false, sy: { c: 0, h: 0 } };
+const PEND = { c: [], h: [] }, FT = {}, CQ = { c: Promise.resolve(), h: Promise.resolve() };
+let PV = null, FM = null;
+
+async function getRoot(kind) {
+  const c = await api("getChat", { chat_id: CH[kind] }); const pm = c.pinned_message;
+  const r = pm && parseRoot(pm.text); if (r) { r.mid = pm.message_id; return r }
+  const known = await mget("root:" + kind);
+  if (known) { try { const m = await fwd(CH[kind], known, 0); const rr = parseRoot(m.text); if (rr) { rr.mid = known; api("pinChatMessage", { chat_id: CH[kind], message_id: known, disable_notification: true }).catch(() => { }); return rr } } catch (e) { } }
+  return null
+}
+function mutate(e, op) {
+  if (op.set) Object.assign(e, op.set);
+  if (op.add) { const a = e[op.add[0]] = e[op.add[0]] || []; if (!a.includes(op.add[1])) a.push(op.add[1]) }
+  if (op.rem) e[op.rem[0]] = (e[op.rem[0]] || []).filter(x => x != op.rem[1])
+}
+function localOp(kind, op) {
+  const M = S.m[kind]; if (op.del) { M.delete(op.k); return }
+  let e = M.get(op.k); if (!e) { if (op.rem) return; e = blank(kind, op.k); M.set(op.k, e) } mutate(e, op)
+}
+const persistOne = (kind, op) => { const e = S.m[kind].get(op.k); return op.del || !e ? idb(ROW[kind], "readwrite", s => s.delete(op.k)) : idb(ROW[kind], "readwrite", s => s.put(e)) };
+const reapplyPending = kind => PEND[kind].forEach(op => localOp(kind, op));
+const renderKind = kind => { rq(kind == "c" ? renderClients : renderHerbs); if (kind == "c" && PV) rq(fillProfile) };
+function queueOp(kind, op) {
+  const e = S.m[kind].get(op.k); if (e && e.page) op.pg = e.page;
+  PEND[kind].push(op); mset("pend:" + kind, PEND[kind]); localOp(kind, op); persistOne(kind, op); renderKind(kind);
+  clearTimeout(FT[kind]); FT[kind] = setTimeout(() => flushIdx(kind), 1800); setSt("Saving…")
+}
+const flushIdx = kind => chain(CQ, kind, () => doFlush(kind)).catch(e => { setSt("Index pending"); if (e.code !== 0) toast("Index not saved: " + e.message); clearTimeout(FT[kind]); FT[kind] = setTimeout(() => flushIdx(kind), 20000) });
+
+async function doFlush(kind) {
+  const ops = PEND[kind].slice(); if (!ops.length) return;
+  const chan = CH[kind], D = KD[kind], key = D.key; setSt("Saving…");
+  const root = await getRoot(kind); if (!root) throw new Error("Index missing — rebuild in Settings");
+  const P = root.pages.map(p => ({ id: p.id, ver: p.ver, c: null }));
+  const rd = async p => { if (!p.c) { let m; try { m = await fwd(chan, p.id, 1) } catch (e) { if (gone(e)) throw new Error("Index page missing — rebuild in Settings"); throw e } const pg = parsePage(m.text); p.c = { ents: (pg ? pg.lines : []).map(D.par).filter(Boolean), dirty: false } } return p.c };
+  const find = k => P.find(p => p.c && p.c.ents.some(e => e[key] == k));
+  const lastP = async () => { if (!P.length) P.push({ id: 0, ver: 0, c: { ents: [], dirty: true } }); const p = P[P.length - 1]; await rd(p); return p };
+  for (const op of ops) {
+    const k = op.k; let p = find(k); const lp = op.pg || (S.m[kind].get(k) || {}).page;
+    if (!p && lp) { const q = P.find(x => x.id == lp); if (q) { await rd(q); if (q.c.ents.some(e => e[key] == k)) p = q } }
+    if (!p && lp && !op.del && !op.rem) { for (const q of P) { await rd(q); if (q.c.ents.some(e => e[key] == k)) { p = q; break } } }
+    if (op.del) { if (p) { p.c.ents = p.c.ents.filter(e => e[key] != k); p.c.dirty = true } continue }
+    let e = p && p.c.ents.find(e => e[key] == k);
+    if (!e) { if (op.rem) continue; e = blank(kind, k); p = await lastP(); p.c.ents.push(e) }
+    mutate(e, op); p.c.dirty = true
+  }
+  for (let i = 0; i < P.length; i++) {
+    const p = P[i]; if (!p.c || !p.c.dirty) continue; const len = () => pageText(0, p.c.ents.map(D.ser)).length;
+    while (len() > PAGE_MAX && p.c.ents.length > 1) {
+      const mv = p.c.ents.pop(); let np = P.find(x => !x.id && x !== p && x.c);
+      if (!np || pageText(0, np.c.ents.concat(mv).map(D.ser)).length > PAGE_MAX) { np = { id: 0, ver: 0, c: { ents: [], dirty: true } }; P.push(np) } np.c.ents.push(mv)
+    }
+  }
+  const dirty = P.filter(p => p.c && p.c.dirty);
+  if (dirty.length) {
+    const nv = root.v + 1;
+    for (const p of dirty) {
+      const text = pageText(nv, p.c.ents.map(D.ser));
+      if (p.id) { try { await api("editMessageText", { chat_id: chan, message_id: p.id, text }) } catch (e) { ne(e) } }
+      else { const m = await api("sendMessage", { chat_id: chan, text, disable_notification: true }); p.id = m.message_id }
+      p.ver = nv
+    }
+    try { await api("editMessageText", { chat_id: chan, message_id: root.mid, text: rootText(nv, P.map(p => ({ id: p.id, ver: p.ver }))) }) } catch (e) { ne(e) }
+  }
+  PEND[kind].splice(0, ops.length); await mset("pend:" + kind, PEND[kind]);
+  await syncKind(kind)
+}
+
+async function syncKind(kind, force) {
+  const st = await mget("scan:" + kind); if (st) { await scanFlow(kind); return }
+  const root = await getRoot(kind); if (!root) { await scanFlow(kind); return }
+  mset("root:" + kind, root.mid);
+  const lv = (await mget("rootv:" + kind)) || 0, pv = (await mget("pv:" + kind)) || {};
+  const M = S.m[kind], D = KD[kind], key = D.key, have = new Set(root.pages.map(p => p.id));
+  const stale = root.pages.filter(p => pv[p.id] !== p.ver || force === "all");
+  const puts = [], dels = new Set(), old = new Map();
+  for (const e of [...M.values()]) if (e.page && !have.has(e.page)) { M.delete(e[key]); dels.add(e[key]) }
+  let n = 0;
+  for (const p of stale) {
+    setSt(`Loading index ${++n}/${stale.length}`);
+    let m; try { m = await fwd(CH[kind], p.id, 1) } catch (e) { if (gone(e)) throw new Error("Index page missing — rebuild in Settings"); throw e }
+    const pg = parsePage(m.text); if (!pg) continue;
+    for (const e of [...M.values()]) if (e.page == p.id) { old.set(e[key], e); M.delete(e[key]); dels.add(e[key]) }
+    for (const l of pg.lines) { const e = D.par(l); if (!e) continue; e.page = p.id; const o = old.get(e[key]) || M.get(e[key]); if (o && o.issue !== undefined) e.issue = o.issue; M.set(e[key], e); puts.push(e) }
+    pv[p.id] = p.ver; renderKind(kind)
+  }
+  for (const k of [...dels]) if (M.has(k)) dels.delete(k);
+  reapplyPending(kind);
+  if (puts.length || dels.size) await idb(ROW[kind], "readwrite", s => { dels.forEach(k => s.delete(k)); puts.forEach(e => s.put(M.get(e[key]) || e)) });
+  const pvc = {}; root.pages.forEach(p => pvc[p.id] = pv[p.id]);
+  await mset("pv:" + kind, pvc); await mset("rootv:" + kind, root.v); renderKind(kind)
+}
+
+/* ---------- full scan (forward each id into the sync group, read it, delete the copy) ---------- */
+class Stop extends Error { }
+function buildEntries(kind, recs) {
+  if (kind == "h") { const prev = S.m.h; return recs.filter(r => r.type == "herb").map(r => ({ mid: r.mid, name: r.name || "Untitled", tags: r.tags || [], kw: r.kw, bn: r.bn, thumb: r.thumb, fav: !!(prev.get(r.mid) || {}).fav })) }
+  const m = new Map(); const get = mob => m.get(mob) || m.set(mob, blank("c", mob)).get(mob);
+  for (const r of recs) {
+    if (!r.mob) continue; const e = get(r.mob);
+    if (r.type == "profile") { if (r.mid > e.pid) Object.assign(e, { name: r.name, pid: r.mid, av: r.thumb, age: r.age, wt: r.wt, date: r.date }) }
+    else if (r.type == "diet") e.d.push(r.mid); else if (r.type == "supp") e.s.push(r.mid); else if (r.type == "note") e.n.push(r.mid)
+  }
+  return [...m.values()].filter(e => e.pid)
+}
+async function writeFresh(kind, ents, hint) {
+  const chan = CH[kind], D = KD[kind]; let root = null; try { root = await getRoot(kind) } catch (e) { }
+  const oldPages = root ? root.pages.map(p => p.id) : (hint.pages || []); let rootMid = root ? root.mid : (hint.root || 0); const nv = (root ? root.v : 0) + 1;
+  const chunks = []; let cur = [], len = 24;
+  for (const e of ents) { const l = D.ser(e).length + 1; if (cur.length && len + l > PAGE_MAX) { chunks.push(cur); cur = []; len = 24 } cur.push(e); len += l }
+  if (cur.length) chunks.push(cur);
+  const pages = [];
+  for (let i = 0; i < chunks.length; i++) {
+    const text = pageText(nv, chunks[i].map(D.ser)); let id = oldPages[i];
+    if (id) { try { await api("editMessageText", { chat_id: chan, message_id: id, text }) } catch (e) { if (!/not modified/i.test(e.message)) id = 0 } }
+    if (!id) { const m = await api("sendMessage", { chat_id: chan, text, disable_notification: true }); id = m.message_id }
+    chunks[i].forEach(e => e.page = id); pages.push({ id, ver: nv })
+  }
+  for (const id of oldPages.slice(chunks.length)) api("deleteMessage", { chat_id: chan, message_id: id }).catch(() => { });
+  const rt = rootText(nv, pages); let ok = false;
+  if (rootMid) { try { await api("editMessageText", { chat_id: chan, message_id: rootMid, text: rt }); ok = true } catch (e) { ok = /not modified/i.test(e.message) } }
+  const created = !ok; if (!ok) { const m = await api("sendMessage", { chat_id: chan, text: rt, disable_notification: true }); rootMid = m.message_id }
+  if (!root || created || root.mid !== rootMid) { try { await api("pinChatMessage", { chat_id: chan, message_id: rootMid, disable_notification: true }) } catch (e) { toast('Could not pin the index. Give the bot the "Pin messages" right.') } }
+  return { v: nv, pages, mid: rootMid }
+}
+async function applyFresh(kind, ents, res) {
+  const M = S.m[kind], key = KD[kind].key, old = new Map(M); M.clear();
+  ents.forEach(e => { const o = old.get(e[key]); if (o && o.issue !== undefined) e.issue = o.issue; M.set(e[key], e) });
+  const pv = {}; res.pages.forEach(p => pv[p.id] = p.ver);
+  await idb(ROW[kind], "readwrite", s => { s.clear(); ents.forEach(e => s.put(e)) });
+  await mset("pv:" + kind, pv); await mset("rootv:" + kind, res.v); await mset("root:" + kind, res.mid);
+  PEND[kind] = []; await mset("pend:" + kind, []); renderKind(kind)
+}
+function scanUI(kind) {
+  const nm = kind == "c" ? "clients" : "formulas";
+  const o = el(`<div class="bn"><div class="bt"><span id="sn">Preparing…</span><button id="sp">Pause</button></div><div class="pb" style="display:block"><i id="sb"></i></div><small id="sw"></small></div>`);
+  document.body.appendChild(o); const ui = { o, stop: false,
+    prog(n, t) { $("#sn", o).textContent = t ? `Reading ${nm} · ${n} of ${t}` : "Preparing…"; $("#sb", o).style.transform = `scaleX(${t ? n / t : 0})` },
+    set(t) { $("#sn", o).textContent = t }, note(t) { $("#sw", o).textContent = t || "" }, close() { o.remove() } };
+  $("#sp", o).onclick = () => { ui.stop = true; $("#sp", o).disabled = true; $("#sp", o).textContent = "Pausing…" }; return ui
+}
+async function scanFlow(kind) {
+  const ui = scanUI(kind), chans = kind == "c" ? [CH.c, CH.d] : [CH.h]; onWait = w => ui.note(w ? `Rate limited, retrying in ${w}s` : "");
+  try {
+    let st = await mget("scan:" + kind); if (st && !st.srcs) st = null;
+    if (!st) {
+      ui.set("Checking access…"); const srcs = [];
+      for (const chan of chans) {
+        const p = await api("sendMessage", { chat_id: chan, text: ".", disable_notification: true });
+        try { const f = await Q.add(() => api("forwardMessage", { chat_id: SYNC_GROUP_ID, from_chat_id: chan, message_id: p.message_id, disable_notification: true }), 0); DEL.push(f.message_id) }
+        catch (e) { await api("deleteMessage", { chat_id: chan, message_id: p.message_id }).catch(() => { }); throw new Error("Cannot forward from the source: " + e.message) }
+        await api("deleteMessage", { chat_id: chan, message_id: p.message_id }).catch(() => { });
+        srcs.push({ chan, latest: p.message_id - 1, next: 1 })
+      }
+      st = { srcs, recs: [], idx: { root: 0, pages: [] }, ok: 0, bad: 0 }; await mset("scan:" + kind, st)
+    }
+    const total = st.srcs.reduce((a, s) => a + s.latest, 0); let tick = 0;
+    for (let si = 0; si < st.srcs.length; si++) {
+      const sc = st.srcs[si];
+      for (; sc.next <= sc.latest; sc.next++) {
+        if (ui.stop) { await mset("scan:" + kind, st); throw new Stop() }
+        if (++tick % 3 == 0) ui.prog(st.srcs.reduce((a, s) => a + s.next - 1, 0), total);
+        try {
+          const m = await fwd(sc.chan, sc.next, 2); st.ok++; const r = scanInfo(m, sc.next);
+          if (r) { if (r.type == "idxroot") { if (si == 0) st.idx.root = r.mid } else if (r.type == "idxpage") { if (si == 0) st.idx.pages.push(r.mid) } else st.recs.push(r) }
+        } catch (e) { if (gone(e)) st.bad++; else throw e }
+        if (sc.next % 10 == 0) await mset("scan:" + kind, st)
+      }
+    }
+    ui.prog(total, total); ui.set("Writing index…");
+    const ents = buildEntries(kind, st.recs); const res = await writeFresh(kind, ents, st.idx);
+    await applyFresh(kind, ents, res); await mdel("scan:" + kind); ui.close(); toast(`Index ready · ${ents.length} ${kind == "c" ? "clients" : "formulas"}`)
+  } catch (e) { ui.close(); if (e instanceof Stop) { toast("Paused. It resumes next time you open the app."); throw e } throw e }
+  finally { onWait = null }
+}
+async function syncAll(manual) {
+  if (syncAll.on) return; syncAll.on = 1; setSt("Syncing…");
+  try {
+    for (const k of ["c", "h"]) await chain(CQ, k, () => syncKind(k, manual ? "all" : 0));
+    setSt("Up to date"); if (manual) toast("Up to date"); setTimeout(() => prefetch(), 2500)
+  } catch (e) { setSt(e instanceof Stop ? "Paused" : e.code === 0 ? "Offline" : "Sync failed"); if (manual || !(e instanceof Stop) && e.code !== 0) toast(e.message) }
+  finally { syncAll.on = 0; for (const k of ["c", "h"]) if (PEND[k].length) flushIdx(k) }
+}
+
+/* ================= UI ================= */
+const uniq = a => [...new Set(a)];
+const ini = n => (String(n || "").trim()[0] || "?").toUpperCase();
+const setT = (n, t) => { if (n && n.textContent !== t) n.textContent = t };
+const deb = (fn, ms) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms) } };
+const XI = () => ic("close");
+
+/* ---------- overlays ---------- */
+const OV = []; let skipPop = 0, HIS = true;
+function topState() { OV.forEach((o, i) => o.classList.toggle("tp", i == OV.length - 1)); document.body.classList.toggle("ovl", OV.length > 0) }
+function openSheet(html, opt = {}) {
+  const o = el(`<div class="ov${opt.mod === false ? "" : " mod"}${opt.nov ? " nov" : ""}"><div class="scrim"></div><div class="sh ${opt.cls || ""}">${html}</div></div>`);
+  o.opt = opt; $("#layers").appendChild(o); OV.push(o); topState();
+  $(".scrim", o).addEventListener("click", () => { if (!o.lock) closeSheet(o) });
+  bindDrag(o);
+  if (HIS) try { history.pushState({ ov: OV.length }, "") } catch (e) { HIS = false }
+  lazy(o); return o
+}
+function closeSheet(o, fromPop, instant) {
+  if (!o || o.closing) return; o.closing = true;
+  const i = OV.indexOf(o); if (i >= 0) OV.splice(i, 1); topState();
+  if (HIS && !fromPop) { skipPop++; try { history.back() } catch (e) { skipPop-- } }
+  const fin = () => { o.remove(); o.opt.onclose && o.opt.onclose() };
+  if (instant || RM) return fin();
+  o.classList.add("out"); setTimeout(fin, 270)
+}
+addEventListener("popstate", () => {
+  if (skipPop > 0) { skipPop--; return }
+  const o = OV[OV.length - 1]; if (!o) return;
+  if (o.lock) { try { history.pushState({ ov: 1 }, "") } catch (e) { } return }
+  closeSheet(o, true)
+});
+addEventListener("keydown", e => { if (e.key == "Escape") { const o = OV[OV.length - 1]; if (o && !o.lock) closeSheet(o) } });
+function bindDrag(o) {
+  if (o.opt.nodrag) return; const sh = $(".sh", o), sc = $(".scrim", o); let y0 = 0, dy = 0, t0 = 0, on = false;
+  $$(".grab,.hd", sh).forEach(h => {
+    h.addEventListener("pointerdown", e => { if (o.lock || e.target.closest("button,input")) return; on = true; y0 = e.clientY; dy = 0; t0 = e.timeStamp; sh.style.transition = "none"; h.setPointerCapture(e.pointerId) });
+    h.addEventListener("pointermove", e => { if (!on) return; dy = Math.max(0, e.clientY - y0); sh.style.transform = `translateY(${dy}px)`; sc.style.opacity = String(Math.max(0, 1 - dy / (sh.offsetHeight || 600))) });
+    const up = e => {
+      if (!on) return; on = false; const v = dy / Math.max(1, e.timeStamp - t0);
+      if (dy > 110 || (v > .7 && dy > 30)) { sh.style.transition = "transform .25s var(--ease)"; sh.style.transform = "translateY(100%)"; sc.style.transition = "opacity .25s"; sc.style.opacity = "0"; setTimeout(() => closeSheet(o, false, true), 240) }
+      else { sh.style.transition = "transform .4s var(--spr)"; sh.style.transform = ""; sc.style.opacity = "" }
+    };
+    h.addEventListener("pointerup", up); h.addEventListener("pointercancel", up)
+  })
+}
+function confirmBox(title, msg, ok = "Delete", danger = true) {
+  return new Promise(res => {
+    let done = false; const fin = v => { if (!done) { done = true; res(v) } };
+    const o = openSheet(`<div class="grab"></div><div class="cf"><h3>${esc(title)}</h3><p>${esc(msg)}</p><div class="acts"><button class="btn ghost" id="c0">Cancel</button><button class="btn ${danger ? "dg" : ""}" id="c1">${esc(ok)}</button></div></div>`, { cls: "sm", onclose: () => fin(false) });
+    $("#c0", o).onclick = () => closeSheet(o); $("#c1", o).onclick = () => { fin(true); closeSheet(o) }
+  })
+}
+
+/* ---------- images: lazy, limited concurrency, IndexedDB avatar cache ---------- */
+const IMG = {
+  paths: new Map(), urls: new Map(), act: 0, q: [], seq: 0,
+  path(fid) { let p = this.paths.get(fid); if (!p) { p = api("getFile", { file_id: fid }).then(r => { if (!r.file_path) throw new TGE("No file", 0); return r.file_path }); this.paths.set(fid, p); p.catch(() => this.paths.delete(fid)) } return p },
+  direct(path) { return `https://api.telegram.org/file/bot${BOT_TOKEN}/${path}` },
+  keep(fid, u) { this.urls.set(fid, u); if (this.urls.size > 500) { const k = this.urls.keys().next().value; URL.revokeObjectURL(this.urls.get(k)); this.urls.delete(k) } return u },
+  async get(fid, o = {}) {
+    const m = this.urls.get(fid); if (m) return m;
+    if (o.persist) { const b = await idb("av", "readonly", s => s.get(fid)); if (b) return this.keep(fid, URL.createObjectURL(b)) }
+    return new Promise((res, rej) => { this.q.push({ fid, o, res, rej, s: this.seq++ }); this.pump() })
+  },
+  pump() {
+    while (this.act < 6 && this.q.length) {
+      let bi = 0; for (let i = 1; i < this.q.length; i++) { const a = this.q[i], b = this.q[bi], pa = a.o.p ?? 1, pb = b.o.p ?? 1; if (pa < pb || (pa == pb && a.s > b.s)) bi = i }
+      const t = this.q.splice(bi, 1)[0]; if (t.o.skip && t.o.skip()) { t.res(null); continue }
+      this.act++; this.run(t).then(t.res, t.rej).finally(() => { this.act--; this.pump() })
+    }
+  },
+  async run(t) {
+    const { fid, o } = t; const m = this.urls.get(fid); if (m) return m;
+    const path = await this.path(fid), durl = this.direct(path);
+    try { const r = await fetch(durl); if (!r.ok) throw 0; const b = await r.blob(); if (o.persist) idb("av", "readwrite", s => s.put(b, fid)); return o.nocache ? URL.createObjectURL(b) : this.keep(fid, URL.createObjectURL(b)) }
+    catch (e) { return durl }
+  }
+};
+const IO = new IntersectionObserver(es => es.forEach(e => { const i = e.target; i._vis = e.isIntersecting; if (e.isIntersecting && !i._ld) loadImg(i) }), { rootMargin: "300px 0px" });
+function loadImg(i) {
+  const fid = i.dataset.fid; if (!fid) return; i._ld = 1;
+  IMG.get(fid, { persist: i.dataset.c == "1", p: i.dataset.p ? 0 : 1, skip: () => !i.isConnected || (!i._vis && !i.dataset.p) }).then(u => {
+    if (!u) { i._ld = 0; return } if (i.dataset.fid !== fid) return;
+    i.onload = () => i.classList.add("in"); i.src = u; if (i.complete && i.naturalWidth) i.classList.add("in")
+  }).catch(() => { i._ld = 0 })
+}
+function lazy(root) { $$("img[data-fid]:not([data-o])", root).forEach(i => { i.dataset.o = 1; IO.observe(i) }) }
+function setFid(i, fid) {
+  fid = fid || ""; if ((i.dataset.fid || "") === fid) return;
+  i.dataset.fid = fid; i.removeAttribute("src"); i.classList.remove("in"); i._ld = 0;
+  if (fid) { if (i.dataset.o) IO.unobserve(i); i.dataset.o = 1; IO.observe(i) }
+}
+const thumbFid = m => !m ? "" : (m.thumb || (m.kind == "img" && (m.size || 0) < 4e6 ? m.full : ""));
+
+/* ---------- keyed DOM patching ---------- */
+function patch(c, list, kf, mk, up, sf) {
+  const cur = new Map(); for (const n of c.children) cur.set(n.dataset.k, n);
+  let ref = c.firstElementChild;
+  for (const it of list) {
+    const k = String(kf(it)), s = sf(it); let n = cur.get(k);
+    if (n) {
+      cur.delete(k);
+      if (n.dataset.s !== s) { const nn = up(n, it); if (nn !== n) { if (ref === n) ref = n.nextElementSibling; n.replaceWith(nn); n = nn; n.dataset.k = k } n.dataset.s = s }
+    } else { n = mk(it); n.dataset.k = k; n.dataset.s = s }
+    if (n === ref) ref = ref.nextElementSibling; else c.insertBefore(n, ref)
+  }
+  cur.forEach(n => n.remove())
+}
+
+/* ---------- clients grid ---------- */
+function cardEl(e, idx) {
+  const n = el(`<div class="card" data-a="open" data-k="${esc(e.mob)}"><div class="av"><span></span><img alt="" decoding="async" data-c="1"></div><b></b><small></small></div>`);
+  if (!S.intro && idx < 14) { n.classList.add("rise"); n.style.setProperty("--i", idx) } return cardUp(n, e)
+}
+function cardUp(n, e) { setT($(".av span", n), ini(e.name)); setT($("b", n), e.name || "Unnamed"); setT($("small", n), e.mob); setFid($("img", n), e.av); return n }
+const MORE = new IntersectionObserver(es => { if (es.some(x => x.isIntersecting)) { S.limit += 40; renderClients() } }, { rootMargin: "900px 0px" });
+function renderClients() {
+  const g = $("#grid"), all = [...S.m.c.values()], loading = !all.length && syncAll.on;
+  if (loading) { if (!g.dataset.sk) { g.dataset.sk = 1; g.innerHTML = Array(8).fill('<div class="card skc"><div class="av"></div><div class="sk"></div></div>').join("") } $("#ec").hidden = true; return }
+  if (g.dataset.sk) { delete g.dataset.sk; g.innerHTML = "" }
+  let list = S.q ? all.filter(e => e.mob.includes(S.q)) : all;
+  list.sort((a, b) => COL.compare(a.name, b.name) || (a.mob < b.mob ? -1 : 1));
+  const total = list.length; list = list.slice(0, S.limit);
+  let idx = 0; patch(g, list, e => e.mob, e => cardEl(e, idx++), (n, e) => cardUp(n, e), e => e.name + "|" + e.av);
+  lazy(g); if (list.length) S.intro = true;
+  const ec = $("#ec"); ec.hidden = !!list.length; if (!list.length) ec.textContent = S.q ? "No client found" : "No clients yet";
+  const mo = $("#more"); if (total > list.length) { if (mo.hidden) { mo.hidden = false } MORE.unobserve(mo); MORE.observe(mo) } else { mo.hidden = true; MORE.unobserve(mo) }
+}
+
+/* ---------- herbal: fuzzy search + list ---------- */
+const norm = s => String(s || "").toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^\p{L}\p{N}]+/gu, " ").trim();
+function lev(a, b, max) {
+  if (Math.abs(a.length - b.length) > max) return max + 1; let p = Array.from({ length: b.length + 1 }, (_, i) => i);
+  for (let i = 1; i <= a.length; i++) { const c = [i]; let mn = i; for (let j = 1; j <= b.length; j++) { const v = Math.min(p[j] + 1, c[j - 1] + 1, p[j - 1] + (a[i - 1] == b[j - 1] ? 0 : 1)); c[j] = v; if (v < mn) mn = v } if (mn > max) return max + 1; p = c }
+  return p[b.length]
+}
+const HAY = new WeakMap();
+function hay(e) { let h = HAY.get(e); if (!h || h.k !== e.name + "|" + e.kw + "|" + e.tags.join() + "|" + e.bn) { h = { k: e.name + "|" + e.kw + "|" + e.tags.join() + "|" + e.bn, n: norm(e.name), t: norm(e.tags.join(" ")), k2: norm(e.kw), b: norm(e.bn) }; h.all = h.n + " " + h.t + " " + h.k2 + " " + h.b; h.w = h.all.split(" "); HAY.set(e, h) } return h }
+function hscore(toks, e) {
+  const h = hay(e); let sc = 0;
+  for (const t of toks) {
+    let s = 0;
+    if (h.n == t) s = 8; else if (h.n.startsWith(t)) s = 6; else if (h.n.split(" ").some(w => w.startsWith(t))) s = 5; else if (h.n.includes(t)) s = 4;
+    else if (h.t.includes(t) || h.k2.includes(t)) s = 3; else if (h.all.includes(t)) s = 2;
+    else if (t.length > 2) { const mx = t.length > 6 ? 2 : 1; if (h.w.some(w => w.length > 1 && (lev(t, w, mx) <= mx || (w.length > t.length && lev(t, w.slice(0, t.length), mx) <= mx)))) s = 1 }
+    if (!s) return 0; sc += s
+  }
+  return sc
+}
+function herbEl(e, idx) {
+  const th = e.thumb ? `<div class="av sq"><span>${ini(e.name)}</span><img alt="" decoding="async" data-fid="${esc(e.thumb)}"></div>` : "";
+  const n = el(`<div class="note" data-a="herb" data-k="${e.mid}"><div class="m"><b>${esc(e.name)}</b><p>${esc(e.bn)}</p><span class="tg">${esc(e.tags.map(t => "#" + t).join("  "))}</span></div><button class="ib star${e.fav ? " on" : ""}" data-a="fav" data-k="${e.mid}" aria-label="Favourite">${ic("star")}</button>${th}</div>`);
+  if (!S.intro && idx < 12) { n.classList.add("rise"); n.style.setProperty("--i", idx) } return n
+}
+function renderHerbs() {
+  const all = [...S.m.h.values()]; const tc = new Map(); all.forEach(e => e.tags.forEach(t => t && tc.set(t, (tc.get(t) || 0) + 1)));
+  const tl = [...tc.keys()].sort((a, b) => COL.compare(a, b)); const sig = tl.join("|") + "#" + S.tag;
+  const tr = $("#tagrow"); if (tr.dataset.s !== sig) { tr.dataset.s = sig; tr.innerHTML = tl.map(t => `<button class="chip${t == S.tag ? " on" : ""}" data-a="tag" data-v="${esc(t)}">${esc(t)}</button>`).join(""); tr.hidden = !tl.length }
+  $("#favf").classList.toggle("on", S.fav); $$("#sortseg button").forEach(b => b.classList.toggle("on", b.dataset.v == S.sort));
+  let list = all; if (S.fav) list = list.filter(e => e.fav); if (S.tag) list = list.filter(e => e.tags.includes(S.tag));
+  const toks = norm(S.hq).split(" ").filter(Boolean);
+  if (toks.length) { list = list.map(e => [hscore(toks, e), e]).filter(x => x[0]).sort((a, b) => b[0] - a[0] || b[1].mid - a[1].mid).map(x => x[1]) }
+  else if (S.sort == "az") list = list.slice().sort((a, b) => COL.compare(a.name, b.name)); else list = list.slice().sort((a, b) => b.mid - a.mid);
+  let items = list.map(e => ({ e })); if (S.sort == "az" && !toks.length) { const o = []; let L = ""; for (const it of items) { const l = ini(it.e.name); if (l != L) { L = l; o.push({ az: l }) } o.push(it) } items = o }
+  let idx = 0;
+  patch($("#hlist"), items, it => it.az ? "az:" + it.az : it.e.mid, it => it.az ? el(`<div class="az">${esc(it.az)}</div>`) : herbEl(it.e, idx++), (n, it) => it.az ? n : herbEl(it.e, 99), it => it.az ? "" : [it.e.name, it.e.bn, it.e.tags.join(), it.e.thumb, it.e.fav].join("|"));
+  lazy($("#hlist")); if (items.length) S.intro = true;
+  const eh = $("#eh"); eh.hidden = !!items.length; if (!items.length) eh.textContent = all.length ? "Nothing found" : (syncAll.on ? "Loading…" : "No formulas yet")
+}
+
+/* ---------- client profile ---------- */
+const DET = new Map(), HC = new Map();
+const chanOf = t => t == "herb" ? CH.h : t == "profile" ? CH.c : CH.d, okRec = v => v && v.f && !v.gone && !v.fail;
+const cacheRec = (chan, r) => { r._c = chan; try { idb("rec", "readwrite", s => s.put(JSON.parse(JSON.stringify(r)), chan + ":" + r.mid)) } catch (e) { } };
+{ const ds = DET.set.bind(DET), hs = HC.set.bind(HC), dd = DET.delete.bind(DET), hd = HC.delete.bind(HC);
+  DET.set = (k, v) => { ds(k, v); if (okRec(v)) cacheRec(chanOf(v.type), v); return DET };
+  HC.set = (k, v) => { hs(k, v); if (okRec(v)) cacheRec(CH.h, v); return HC };
+  DET.delete = k => { const r = DET.get(k); if (r && r.type) idb("rec", "readwrite", s => s.delete(chanOf(r.type) + ":" + k)); return dd(k) };
+  HC.delete = k => { idb("rec", "readwrite", s => s.delete(CH.h + ":" + k)); return hd(k) } }
+const REASONS = ["Follow-up", "Family", "Service", "Other"];
+const withPages = r => { r.pages = r.f && r.f.Pages ? ids(r.f.Pages) : [r.mid]; if (!r.pages.length) r.pages = [r.mid]; return r };
+const inView = n => { const r = n.getBoundingClientRect(); return r.bottom > 0 && r.top < innerHeight };
+const secH = (id, title, type) => `<div class="sec"><div class="sec-h"><h3>${title}<em id="n${id}"></em></h3><button class="pill" data-a="add" data-t="${type}">${ic("plus")}Add</button></div><div id="p${id}"></div><button class="pill more" id="m${id}" data-a="more" data-k="${id}" hidden></button><div class="note-i" id="e${id}" hidden></div>${id == "s" ? '<div id="pt"></div>' : ""}</div>`;
+function openProfile(mob, card) {
+  const e = S.m.c.get(mob); if (!e) return;
+  const html = `<div class="grab"></div><div class="hd"><button class="ib" data-a="close" aria-label="Close">${XI()}</button><b class="ttl"></b><span style="display:flex"><button class="ib" data-a="info" aria-label="Info">${ic("info")}</button><button class="ib" data-a="editp" aria-label="Edit">${ic("edit")}</button></span></div>
+<div class="sc"><div class="hero"><div class="av"><span></span><img alt="" data-c="1" data-p="1"></div><h2></h2><p class="sub"><a class="tel"></a></p><p class="sub" id="paddr" hidden></p><div class="tags"></div></div>
+<div class="note-i" id="pbad" hidden>Some records did not load. <button class="retry" data-a="retryload">Retry</button></div>
+<div class="sec" id="pis" hidden><div class="sec-h"><h3>Health issue</h3></div><p style="white-space:pre-wrap;padding:4px 0 10px"></p></div>
+${secH("d", "Diet plans", "diet")}${secH("s", "Supplements", "supp")}${secH("n", "Notes", "note")}</div>`;
+  const av = card && $(".av", card), vt = !!(document.startViewTransition && !RM && av);
+  const go = () => {
+    if (av) av.style.viewTransitionName = "";
+    const o = openSheet(html, { cls: "full", nov: vt, onclose() { if (PV && PV.o === o) PV = null } }); PV = { mob, o, bad: 0, info: null };
+    const ha = $(".hero .av", o); if (vt) ha.style.viewTransitionName = "pav";
+    fillProfile(); loadClient(mob); return ha
+  };
+  if (vt) { av.style.viewTransitionName = "pav"; let ha; const t = document.startViewTransition(() => { ha = go() }); t.finished.finally(() => { if (ha) ha.style.viewTransitionName = "" }) } else go()
+}
+function closeProfile() {
+  const p = PV; if (!p) return; const card = $(`#grid [data-k="${CSS.escape(p.mob)}"] .av`), ha = $(".hero .av", p.o);
+  if (document.startViewTransition && !RM && card && ha && inView(card)) {
+    ha.style.viewTransitionName = "pav";
+    const t = document.startViewTransition(() => { ha.style.viewTransitionName = ""; card.style.viewTransitionName = "pav"; closeSheet(p.o, false, true) });
+    t.finished.finally(() => { card.style.viewTransitionName = "" })
+  } else closeSheet(p.o)
+}
+function loadClient(mob) {
+  const e = S.m.c.get(mob), P = PV; if (!e || !P) return; const alive = () => PV === P; P.bad = 0;
+  const dd = e.d.slice().reverse(), nn = e.n.slice().reverse(), ss = e.s.slice().reverse(), all = [e.pid];
+  for (let i = 0; i < Math.max(dd.length, nn.length, ss.length); i++) { if (dd[i]) all.push(dd[i]); if (nn[i]) all.push(nn[i]); if (ss[i]) all.push(ss[i]) }
+  all.filter(id => id && (!DET.has(id) || DET.get(id).fail)).forEach(id => {
+    readRec(id == e.pid ? CH.c : CH.d, id, 0, () => !alive()).then(r => {
+      if (!alive()) return;
+      if (!r) { DET.set(id, { mid: id, gone: 1 }); return } DET.set(id, withPages(r));
+      if (r.type == "profile") { const en = S.m.c.get(mob); if (en && en.issue !== (r.f.Issue || "")) { en.issue = r.f.Issue || ""; persistOne("c", { k: mob }) } }
+    }).catch(err => { if (!alive()) return; if (gone(err)) DET.set(id, { mid: id, gone: 1 }); else { DET.set(id, { mid: id, fail: 1 }); P.bad++ } }).finally(() => { if (alive()) rq(fillProfile) })
+  })
+}
+const isLoaded = r => r && r.f && !r.gone && !r.fail;
+function dietRow(r) {
+  if (!isLoaded(r)) return r && r.fail ? el(`<div class="row s"><div class="m"><small>Could not load</small></div></div>`) : r && r.gone ? el(`<div class="row s"><div class="m"><small>Record unavailable</small></div></div>`) : el(`<div class="row"><div class="th sk"></div><div class="m"><div class="sk l1"></div><div class="sk l2"></div></div></div>`);
+  const f = r.f, fee = num(f.Fee), pg = r.pages ? r.pages.length : 1, tf = thumbFid(r.media), fl = f.Formulas ? f.Formulas.split(/\s*;\s*/).filter(Boolean) : [];
+  return el(`<div class="row"><button class="th" data-a="view" data-k="${r.mid}" aria-label="Open">${tf ? `<img alt="" decoding="async" data-fid="${esc(tf)}">` : ic(r.media && r.media.kind == "pdf" ? "file" : "image")}${pg > 1 ? `<span class="pg">${pg}</span>` : ""}</button><div class="m"><b>${esc(f.Title || "Diet plan")}</b><small>${esc(fdate(f.Date) + (f.To ? " – " + fdate(f.To) : "") + (f.Wt ? " · " + f.Wt + " kg" : ""))}</small>${fl.length ? `<div class="fls">${fl.map(n => `<button class="chip sm" data-a="gof" data-v="${esc(n)}">${esc(n)}</button>`).join("")}</div>` : ""}</div><span class="fee${fee ? "" : " free"}">${fee ? inr(fee) : "No fee"}${!fee && f.Reason ? `<small>${esc(f.Reason)}</small>` : ""}</span><button class="ib" data-a="edit" data-t="diet" data-k="${r.mid}" aria-label="Edit">${ic("edit")}</button></div>`)
+}
+function suppRow(r) {
+  if (!isLoaded(r)) return el(`<div class="row s"><div class="m"><div class="sk l1"></div><div class="sk l2"></div></div></div>`);
+  const f = r.f; return el(`<div class="row s"><div class="m"><b>${esc(f.Name)}</b><small>${esc(fdate(f.Date))}</small></div><span class="fee">${inr(num(f.Price))}</span><button class="ib" data-a="edit" data-t="supp" data-k="${r.mid}" aria-label="Edit">${ic("edit")}</button></div>`)
+}
+function noteRow(r) {
+  if (!isLoaded(r)) return el(`<div class="row s"><div class="m"><div class="sk l1"></div><div class="sk l2"></div></div></div>`);
+  const f = r.f; return el(`<div class="row s"><div class="m"><small>${esc(fdate(f.Date))}</small><p>${esc(f.Text)}</p></div><button class="ib" data-a="edit" data-t="note" data-k="${r.mid}" aria-label="Edit">${ic("edit")}</button></div>`)
+}
+const rsig = r => !r ? "0" : isLoaded(r) ? JSON.stringify(r.f) + (r.media ? r.media.full : "") : r.fail ? "f" : r.gone ? "g" : "0";
+const byDate = (a, b) => (isLoaded(a) ? 0 : 1) - (isLoaded(b) ? 0 : 1) || String(b.f && b.f.Date || "").localeCompare(String(a.f && a.f.Date || "")) || b.mid - a.mid;
+function fillProfile() {
+  const p = PV; if (!p) return; const e = S.m.c.get(p.mob); if (!e) { closeSheet(p.o, false, true); return } const o = p.o;
+  setT($(".ttl", o), e.name); setT($(".hero span", o), ini(e.name)); setFid($(".hero img", o), e.av); setT($("h2", o), e.name || "Unnamed"); const ta = $(".tel", o); setT(ta, e.mob); ta.href = "tel:" + e.mob; const pr = DET.get(e.pid), ad = isLoaded(pr) ? pr.f.Address || "" : "", pa = $("#paddr", o); pa.hidden = !ad; setT(pa, ad ? "📍 " + ad : "");
+  const tg = []; if (e.age) tg.push(e.age + " yrs"); if (e.wt) tg.push(e.wt + " kg"); if (e.date) tg.push("Since " + fdate(e.date));
+  const tgs = $(".tags", o); if (tgs.dataset.s !== tg.join("|")) { tgs.dataset.s = tg.join("|"); tgs.innerHTML = tg.map(t => `<span>${esc(t)}</span>`).join("") }
+  const is = $("#pis", o); is.hidden = !e.issue; if (e.issue) setT($("p", is), e.issue);
+  $("#pbad", o).hidden = !p.bad;
+  const mk = (id, arr, rowf) => {
+    const rs = arr.map(i => DET.get(i) || { mid: i }).sort(byDate);
+    const lm = id == "d" || id == "s", open = p.more && p.more[id], shown = lm && !open ? rs.slice(0, 3) : rs, mb = $("#m" + id, o); mb.hidden = !lm || rs.length <= 3; mb.textContent = open ? "Show less" : "Show more (" + (rs.length - 3) + ")";
+    patch($("#p" + id, o), shown, r => r.mid, r => rowf(r), (n, r) => rowf(r), rsig); setT($("#n" + id, o), arr.length ? String(arr.length) : ""); return rs
+  };
+  const rd = mk("d", e.d, dietRow), rs = mk("s", e.s, suppRow), rn = mk("n", e.n, noteRow);
+  [["d", rd, "No diet plans yet"], ["s", rs, "No supplements yet"], ["n", rn, "No notes yet"]].forEach(([id, r, t]) => { const em = $("#e" + id, o); em.hidden = !!r.length; em.textContent = t });
+  const pt = $("#pt", o), ld = rs.filter(isLoaded); pt.innerHTML = ld.length && ld.length == rs.length ? `<div class="tot"><span>Total</span><span class="fee">${inr(ld.reduce((a, r) => a + num(r.f.Price), 0))}</span></div>` : "";
+  lazy(o); if (p.info) fillInfo()
+}
+function statsOf(e) {
+  const dr = e.d.map(i => DET.get(i)).filter(r => isLoaded(r)), sr = e.s.map(i => DET.get(i)).filter(r => isLoaded(r)), nr = e.n.map(i => DET.get(i)).filter(r => isLoaded(r));
+  const fee = dr.reduce((a, r) => a + num(r.f.Fee), 0), sup = sr.reduce((a, r) => a + num(r.f.Price), 0), free = dr.filter(r => !num(r.f.Fee)).length;
+  const dates = [e.date, ...dr.map(r => r.f.Date), ...sr.map(r => r.f.Date), ...nr.map(r => r.f.Date)].filter(Boolean).sort();
+  const mo = new Map(); const add = (d, k, v) => { const m = (d || "").slice(0, 7) || "0000-00"; const x = mo.get(m) || { d: 0, s: 0 }; x[k] += v; mo.set(m, x) };
+  dr.forEach(r => add(r.f.Date, "d", num(r.f.Fee))); sr.forEach(r => add(r.f.Date, "s", num(r.f.Price)));
+  const rs = {}; dr.filter(r => !num(r.f.Fee)).forEach(r => { const k = r.f.Reason || "Other"; rs[k] = (rs[k] || 0) + 1 });
+  const wp = []; if (e.wt && e.date) wp.push([e.date, num(e.wt)]); dr.forEach(r => { if (num(r.f.Wt) && r.f.Date) wp.push([r.f.Date, num(r.f.Wt)]) }); wp.sort((a, b) => a[0].localeCompare(b[0]));
+  return { rs, wp, fee, sup, free, first: dates[0], nd: e.d.length, mo: [...mo.entries()].sort((a, b) => b[0].localeCompare(a[0])), got: dr.length + sr.length + nr.length, all: e.d.length + e.s.length + e.n.length }
+}
+function fillInfo() {
+  const p = PV, o = p && p.info; if (!o) return; const e = S.m.c.get(p.mob); if (!e) return; const s = statsOf(e);
+  const ml = k => k == "0000-00" ? "Undated" : new Date(k + "-01T00:00").toLocaleDateString("en-GB", { month: "short", year: "numeric" });
+  $("#inf", o).innerHTML = `<div class="kv"><span>First visit</span><span>${esc(s.first ? fdate(s.first) : "—")}</span></div><div class="kv"><span>Diet plans</span><span>${s.nd}</span></div><div class="kv"><span>Fee income</span><span>${inr(s.fee)}</span></div><div class="kv"><span>Supplement income</span><span>${inr(s.sup)}</span></div><div class="kv big"><span>Total collected</span><span>${inr(s.fee + s.sup)}</span></div>
+${s.mo.length ? `<table class="tb"><thead><tr><th>Month</th><th>Fees</th><th>Supplements</th><th>Total</th></tr></thead><tbody>${s.mo.map(([k, v]) => `<tr><td>${ml(k)}</td><td>${inr(v.d)}</td><td>${inr(v.s)}</td><td>${inr(v.d + v.s)}</td></tr>`).join("")}</tbody><tfoot><tr><td>All time</td><td>${inr(s.fee)}</td><td>${inr(s.sup)}</td><td>${inr(s.fee + s.sup)}</td></tr></tfoot></table>` : ""}
+${wChart(s.wp)}${s.got < s.all ? `<div class="note-i">Loading ${s.got} of ${s.all}</div>` : ""}`
+}
+function wChart(wp) {
+  if (wp.length < 2) return ""; const W = 300, H = 110, p = 16, ys = wp.map(x => x[1]), mn = Math.min(...ys), rg = (Math.max(...ys) - mn) || 1, t0 = new Date(wp[0][0]).getTime(), tr = (new Date(wp[wp.length - 1][0]).getTime() - t0) || 1;
+  const pt = wp.map(([d, v]) => [p + (new Date(d).getTime() - t0) / tr * (W - 2 * p), H - p - (v - mn) / rg * (H - 2 * p - 10)]);
+  return `<div class="sec-h" style="margin-top:16px"><h3>Weight (kg)</h3></div><svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto"><polyline fill="none" stroke="var(--gd)" stroke-width="2" points="${pt.map(a => a.map(n => n.toFixed(1)).join(",")).join(" ")}"/>${pt.map((a, i) => `<circle cx="${a[0].toFixed(1)}" cy="${a[1].toFixed(1)}" r="3" fill="var(--gd)"/><text x="${a[0].toFixed(1)}" y="${(a[1] - 7).toFixed(1)}" font-size="9" text-anchor="middle" fill="var(--tx)">${wp[i][1]}</text>`).join("")}</svg>`
+}
+function openInfo() {
+  const p = PV; if (!p) return;
+  p.info = openSheet(`<div class="grab"></div><div class="hd"><button class="ib" data-a="close" aria-label="Close">${XI()}</button><b class="ttl">Summary</b><span style="width:38px"></span></div><div class="sc" id="inf"></div>`, { cls: "sm", onclose() { if (PV === p) p.info = null } }); fillInfo()
+}
+
+/* ---------- image pipeline ---------- */
+const MBs = 1048576;
+const blobOf = (cv, q) => new Promise(r => cv.toBlob(r, "image/jpeg", q));
+function stepDown(src, w, h) {
+  let cur = src, cw = src.width, ch = src.height;
+  while (cw / 2 >= w && ch / 2 >= h) { const c = document.createElement("canvas"); c.width = Math.round(cw / 2); c.height = Math.round(ch / 2); const x = c.getContext("2d"); x.imageSmoothingQuality = "high"; x.drawImage(cur, 0, 0, c.width, c.height); if (cur !== src) { cur.width = 0 } cur = c; cw = c.width; ch = c.height }
+  const c = document.createElement("canvas"); c.width = Math.max(1, Math.round(w)); c.height = Math.max(1, Math.round(h)); const x = c.getContext("2d"); x.fillStyle = "#fff"; x.fillRect(0, 0, c.width, c.height); x.imageSmoothingQuality = "high"; x.drawImage(cur, 0, 0, c.width, c.height); if (cur !== src) cur.width = 0; return c
+}
+async function decode(file, maxSide) {
+  let bmp; try { bmp = await createImageBitmap(file, { imageOrientation: "from-image" }) } catch (e) {
+    bmp = await new Promise((res, rej) => { const u = URL.createObjectURL(file), i = new Image(); i.onload = () => { URL.revokeObjectURL(u); res(i) }; i.onerror = () => { URL.revokeObjectURL(u); rej(new Error("decode")) }; i.src = u })
+  }
+  const w0 = bmp.width || bmp.naturalWidth, h0 = bmp.height || bmp.naturalHeight, k = Math.min(1, maxSide / Math.max(w0, h0));
+  const src = document.createElement("canvas"); src.width = w0; src.height = h0; const x = src.getContext("2d"); x.fillStyle = "#fff"; x.fillRect(0, 0, w0, h0); x.drawImage(bmp, 0, 0); if (bmp.close) bmp.close();
+  const cv = k < 1 ? stepDown(src, w0 * k, h0 * k) : src; if (cv !== src) src.width = 0; return { cv, w0, h0 }
+}
+async function packDiet(file) {
+  const raw = pdf => { if (file.size > 50 * MBs) throw new Error("big"); return { blob: file, thumb: null, name: file.name || "file", size: file.size, orig: file.size, pdf, big: file.size > 20 * MBs } };
+  if (file.type == "application/pdf" || /\.pdf$/i.test(file.name)) return raw(1);
+  let d; try { d = await decode(file, 2400) } catch (e) { return raw(0) }
+  const { cv, w0, h0 } = d, LIM = 1 * MBs; let blob, src = cv;
+  try {
+    if (file.type == "image/jpeg" && file.size <= LIM && Math.max(w0, h0) <= 2400) blob = file;
+    else {
+      const qs = [.9, .85, .8, .75, .7, .65, .6, .55]; let cur = cv;
+      for (let pass = 0; pass < 5; pass++) {
+        for (const q of qs) { blob = await blobOf(cur, q); if (!blob || blob.size <= LIM) break }
+        if (!blob || blob.size <= LIM || Math.max(cur.width, cur.height) <= 1500) break;
+        const n = stepDown(cur, cur.width * .85, cur.height * .85); if (cur !== cv) cur.width = 0; cur = n
+      }
+      if (cur !== cv) src = cur
+    }
+    if (!blob) throw 0;
+    const k = Math.min(1, 320 / Math.max(src.width, src.height)), tc = stepDown(src, src.width * k, src.height * k), thumb = await blobOf(tc, .72); tc.width = 0;
+    if (src !== cv) src.width = 0; cv.width = 0;
+    return { blob, thumb, name: `plan-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 5)}.jpg`, size: blob.size, orig: file.size, url: thumb ? URL.createObjectURL(thumb) : "" }
+  } catch (e) { cv.width = 0; return raw(0) }
+}
+async function packPhoto(file, side, q) { const { cv } = await decode(file, side); const b = await blobOf(cv, q); cv.width = 0; return b }
+function cropPhoto(file) {
+  return new Promise(async res => {
+    let cv; try { cv = (await decode(file, 1600)).cv } catch (e) { toast("Can't read this image"); return res(null) }
+    let done = false;
+    const o = openSheet(`<div class="grab"></div><div class="hd"><button class="ib" data-a="close" aria-label="Close">${XI()}</button><b class="ttl">Crop photo</b><span style="width:38px"></span></div><div class="sc"><div class="crop"><div class="mk"></div></div><div class="acts"><button class="btn" id="cdone">Done</button></div></div>`, { cls: "sm", onclose: () => { if (!done) res(null) } });
+    const box = $(".crop", o); box.insertBefore(cv, box.firstChild);
+    const B = box.clientWidth, m = B * .08, M = B * .84, w = cv.width, h = cv.height, min = M / Math.min(w, h);
+    let s = min, tx = (B - w * s) / 2, ty = (B - h * s) / 2;
+    const apply = () => { s = Math.min(Math.max(s, min), min * 6); tx = Math.min(m, Math.max(m + M - w * s, tx)); ty = Math.min(m, Math.max(m + M - h * s, ty)); cv.style.transform = `translate(${tx}px,${ty}px) scale(${s})` }; apply();
+    const P = new Map(); let g = null; const cen = a => [a.reduce((t, p) => t + p[0], 0) / a.length, a.reduce((t, p) => t + p[1], 0) / a.length];
+    const snap = () => { const a = [...P.values()], r = box.getBoundingClientRect(), c = a.length ? cen(a) : [0, 0]; return { s, tx, ty, d: a.length > 1 ? Math.hypot(a[0][0] - a[1][0], a[0][1] - a[1][1]) : 0, cx: c[0] - r.left, cy: c[1] - r.top } };
+    box.addEventListener("pointerdown", e => { box.setPointerCapture(e.pointerId); P.set(e.pointerId, [e.clientX, e.clientY]); g = snap() });
+    box.addEventListener("pointermove", e => {
+      if (!P.has(e.pointerId) || !g) return; P.set(e.pointerId, [e.clientX, e.clientY]); const a = [...P.values()], r = box.getBoundingClientRect(), c = cen(a), cx = c[0] - r.left, cy = c[1] - r.top;
+      s = a.length > 1 && g.d ? g.s * Math.hypot(a[0][0] - a[1][0], a[0][1] - a[1][1]) / g.d : g.s; tx = cx - (g.cx - g.tx) / g.s * s; ty = cy - (g.cy - g.ty) / g.s * s; apply()
+    });
+    const end = e => { P.delete(e.pointerId); g = P.size ? snap() : null }; box.addEventListener("pointerup", end); box.addEventListener("pointercancel", end);
+    box.addEventListener("wheel", e => { e.preventDefault(); const r = box.getBoundingClientRect(), cx = e.clientX - r.left, cy = e.clientY - r.top, ns = s * Math.exp(-e.deltaY * .002), ip = [(cx - tx) / s, (cy - ty) / s]; s = ns; tx = cx - ip[0] * s; ty = cy - ip[1] * s; apply() }, { passive: false });
+    $("#cdone", o).onclick = async () => {
+      const out = document.createElement("canvas"); out.width = out.height = 640; const x = out.getContext("2d"); x.imageSmoothingQuality = "high";
+      x.drawImage(cv, (m - tx) / s, (m - ty) / s, M / s, M / s, 0, 0, 640, 640); const b = await blobOf(out, .9); out.width = 0; done = true; res(b); closeSheet(o)
+    }
+  })
+}
+
+/* ---------- forms ---------- */
+const FLD = {
+  profile: [["photo"], ["Name", "Name", "text", 1], ["mob", "Mobile number", "tel", 1], ["Age", "Age", "number"], ["Weight", "Weight (kg)", "number"], ["Address", "Address / village", "text"], ["Issue", "Health issue", "area"], ["Date", "Registered", "date"]],
+  diet: [["files"], ["Title", "Title", "text"], ["Date", "Starts", "date"], ["To", "Ends", "date0"], ["Wt", "Weight at start (kg)", "number"], ["Fee", "Fee (₹)", "number"], ["reason"], ["formulas"]],
+  supp: [["Name", "Supplement", "text", 1], ["Price", "Price (₹)", "number", 1], ["Date", "Date", "date"]],
+  note: [["Text", "Note", "area", 1], ["Date", "Date", "date"]],
+  herb: [["photo"], ["Name", "Name", "text", 1], ["tags", "Tags", "text"], ["Ingredients", "Main ingredients", "area"], ["Benefits", "Benefits", "area"], ["Formula", "Formula", "area"], ["Results", "Results", "area"], ["Keywords", "Other names", "text"]]
+};
+const NM = { profile: "client", diet: "diet plan", supp: "supplement", note: "note", herb: "formula" };
+function fieldHTML(k, label, t, val) {
+  const id = "f_" + k, v = esc(val ?? "");
+  if (t == "area") return `<label for="${id}">${label}</label><textarea id="${id}" rows="3">${v}</textarea>`;
+  if (t == "date0") return `<label for="${id}">${label}</label><input id="${id}" type="date" value="${v}">`;
+  if (t == "date") return `<label for="${id}">${label}</label><div class="dt"><input id="${id}" type="date" value="${v}"><button type="button" class="chip" data-a="dchip" data-v="0">Today</button><button type="button" class="chip" data-a="dchip" data-v="1">Yesterday</button></div>`;
+  const im = t == "number" ? ' inputmode="decimal"' : t == "tel" ? ' inputmode="numeric"' : "";
+  return `<label for="${id}">${label}</label><input id="${id}" type="text"${im} autocomplete="off"${t == "text" && k != "tags" ? ' autocapitalize="words"' : ""} value="${v}">`
+}
+function syncChips(o) { $$(".dt", o).forEach(d => { const v = $("input", d).value; const [a, b] = $$(".chip", d); a.classList.toggle("on", v == today()); b.classList.toggle("on", v == yest()) }) }
+function openForm(type, opt = {}) {
+  const rec = opt.rec || null; const f = rec ? rec.f : {}; if (type == "profile" && rec) f.mob = rec.mob;
+  const init = { ...f }; if (!rec && FLD[type].some(x => x[0] == "Date")) init.Date = today(); if (type == "herb" && rec) init.tags = (opt.tags || []).join(", ");
+  if (type == "diet" && rec) init.Fee = f.Fee || "";
+  const html = FLD[type].map(([k, l, t]) => {
+    if (k == "photo") return rec ? "" : `<div class="pick"><button type="button" class="av" data-a="pickphoto" aria-label="Add photo"><span>${ic("camera")}</span><img alt="" hidden></button><small id="phs">Photo (optional)</small><input type="file" id="phin" accept="image/*" hidden></div>`;
+    if (k == "files") return rec ? "" : `<div id="fl"></div><button type="button" class="btn ghost" style="width:100%;margin-top:14px" data-a="pickfiles" id="pf">${ic("plus")} Add pages</button><input type="file" id="fin" multiple accept="image/*,application/pdf" hidden><small id="fh" style="display:block;color:var(--mu);margin-top:6px"></small>`;
+    if (k == "reason") return `<div id="rsw"${num(init.Fee) ? " hidden" : ""}><label>Reason for no fee</label><div class="chiprow">${REASONS.map(r => `<button type="button" class="chip${init.Reason == r ? " on" : ""}" data-a="reason" data-v="${r}">${r}</button>`).join("")}</div></div>`;
+    if (k == "formulas") { const hs = [...S.m.h.values()].sort((a, b) => COL.compare(a.name, b.name)); if (!hs.length) return ""; const sel = new Set(String(init.Formulas || "").split(/\s*;\s*/).filter(Boolean)); return `<label>Formulas</label><div class="chiprow scr">${hs.map(h => `<button type="button" class="chip${sel.has(h.name) ? " on" : ""}" data-a="fchip" data-v="${esc(h.name)}">${esc(h.name)}</button>`).join("")}</div>` }
+    return fieldHTML(k, l, t, init[k])
+  }).join("");
+  const o = openSheet(`<div class="grab"></div><div class="hd"><button class="ib" data-a="close" aria-label="Close">${XI()}</button><b class="ttl">${rec ? "Edit" : "Add"} ${NM[type]}</b><span style="width:38px"></span></div><div class="sc" id="fm">${html}<div id="upl"><small id="ut"></small><div class="pb"><i id="ub"></i></div></div><div class="err" id="er" hidden></div><div class="acts">${rec ? '<button type="button" class="btn dg" data-a="delrec">Delete</button>' : ""}<button type="button" class="btn" id="sv" data-a="submit">Save</button></div></div>`, { cls: "" });
+  FM = { type, o, rec, mob: opt.mob, files: [], photo: null, busy: 0, sent: null, seq: 0 }; syncChips(o); if (type == "profile" && rec) $("#f_mob", o).readOnly = true;
+  o.addEventListener("input", e => { if (e.target.type == "date") syncChips(o); if (e.target.id == "f_Fee" && $("#rsw", o)) $("#rsw", o).hidden = !!num(e.target.value); $("#er", o).hidden = true });
+  if (type == "profile" && !rec) setTimeout(() => { try { $("#f_Name", o).focus() } catch (e) { } }, 350);
+  return o
+}
+function fmErr(msg, retry) { const er = $("#er", FM.o); er.innerHTML = esc(msg) + (retry ? ' <button class="retry" data-a="submit">Retry</button>' : ""); er.hidden = false; er.scrollIntoView({ block: "nearest" }) }
+function setBusy(b) { FM.busy = b; FM.o.lock = !!b; const sv = $("#sv", FM.o); sv.disabled = !!b || FM.files.some(x => x.busy); $("#fm", FM.o).classList.toggle("up", !!b); $$("input,textarea,button[data-a]", FM.o).forEach(x => { if (x.id != "sv" && !x.closest(".hd")) x.disabled = !!b }); setT(sv, b ? "Saving…" : FM.sent ? "Retry" : "Save") }
+function setProg(fr, txt) { $("#ub", FM.o).style.transform = `scaleX(${Math.max(0, Math.min(1, fr))})`; if (txt !== undefined) setT($("#ut", FM.o), txt) }
+function fileRow(x) {
+  const n = el(`<div class="fr"><div class="th ${x.busy ? "sk" : ""}">${x.url ? `<img alt="" src="${x.url}" style="opacity:1">` : x.busy ? "" : ic("file")}</div><div class="m"><b></b><small></small><div class="pb"><i></i></div></div><button type="button" class="ib" data-a="rmfile" data-k="${x.id}" aria-label="Remove">${XI()}</button></div>`);
+  setT($("b", n), x.name || "Preparing…"); const sm = $("small", n); sm.textContent = x.busy ? "Compressing…" : x.big ? "Over 20 MB · cannot be reopened here" : mb(x.size) + (x.orig > x.size * 1.15 ? " · was " + mb(x.orig) : ""); if (x.big) sm.classList.add("warn"); n.dataset.bar = ""; return n
+}
+function renderFiles() {
+  const fm = FM; if (!fm) return; const c = $("#fl", fm.o); if (!c) return;
+  patch(c, fm.files, x => x.id, fileRow, (n, x) => fileRow(x), x => x.busy + "|" + x.size + "|" + x.name);
+  const tot = fm.files.reduce((a, x) => a + (x.size || 0), 0); setT($("#fh", fm.o), fm.files.length ? `${fm.files.length} ${fm.files.length > 1 ? "pages" : "page"} · ${mb(tot)}` : ""); setT($("#pf", fm.o).lastChild, fm.files.length ? " Add more" : " Add pages");
+  $("#pf", fm.o).hidden = fm.files.length >= 10; $("#sv", fm.o).disabled = fm.busy || fm.files.some(x => x.busy)
+}
+async function addFiles(list) {
+  const fm = FM; if (!fm) return; const arr = [...list].slice(0, 10 - fm.files.length); if (list.length > arr.length) toast("Up to 10 pages");
+  for (const file of arr) {
+    const row = { id: ++fm.seq, name: file.name, busy: 1, size: 0, orig: file.size }; fm.files.push(row); renderFiles();
+    try { Object.assign(row, await packDiet(file)) } catch (e) { fm.files.splice(fm.files.indexOf(row), 1); toast(e.message == "big" ? "File is over 50 MB" : "Can't read " + (file.name || "file")) }
+    row.busy = 0; if (FM === fm) renderFiles()
+  }
+}
+function setPhoto(b) {
+  const fm = FM; fm.photo = b; const i = $(".pick img", fm.o); if (i.src) URL.revokeObjectURL(i.src); i.src = URL.createObjectURL(b); i.hidden = false; $(".pick .av>span", fm.o).hidden = true; setT($("#phs", fm.o), "Photo · " + mb(b.size))
+}
+const digits = s => String(s || "").replace(/\D/g, "");
+const gv = k => ($("#f_" + k, FM.o) || {}).value ? $("#f_" + k, FM.o).value.trim() : "";
+async function editMsg(chat, mid, media, text) { try { await api(media ? "editMessageCaption" : "editMessageText", media ? { chat_id: chat, message_id: mid, caption: text } : { chat_id: chat, message_id: mid, text }) } catch (e) { ne(e) } }
+async function delMsgs(chat, list) {
+  const l = uniq(list).filter(Boolean);
+  for (let i = 0; i < l.length; i += 100) { const b = l.slice(i, i + 100); try { await api("deleteMessages", { chat_id: chat, message_ids: b }) } catch (e) { if (e.code === 0) throw e; for (const id of b) { try { await api("deleteMessage", { chat_id: chat, message_id: id }) } catch (x) { if (x.code === 0) throw x } } } }
+}
+function photoFD(chat, text, blob) { const fd = new FormData(); fd.append("chat_id", chat); fd.append("disable_notification", "true"); fd.append("caption", text); fd.append("photo", blob, "photo.jpg"); return fd }
+async function submit() {
+  const fm = FM; if (!fm || fm.busy) return; const { type, rec } = fm; $("#er", fm.o).hidden = true; const f = {};
+  let capText, entry, mob = "";
+  if (type == "profile") {
+    f.Name = gv("Name"); mob = rec ? rec.mob : digits(gv("mob")); f.Age = gv("Age"); f.Weight = gv("Weight"); f.Issue = gv("Issue"); f.Address = gv("Address"); f.Date = gv("Date") || today();
+    if (!f.Name) return fmErr("Enter a name"); if (mob.length < 7 || mob.length > 15) return fmErr("Enter a valid mobile number"); if (!rec && S.m.c.has(mob)) return fmErr("This number already exists");
+    f.mob = mob; capText = cap("profile", f); entry = S.m.c.get(mob); if (capText.length > (fm.photo || (rec && entry && entry.av) ? 1024 : 4096)) return fmErr("Text is too long")
+  } else if (type == "diet") {
+    mob = fm.mob; f.Date = gv("Date") || today(); f.Fee = num(gv("Fee")) ? String(num(gv("Fee"))) : ""; f.Title = gv("Title"); f.mob = mob;
+    f.To = gv("To"); f.Wt = num(gv("Wt")) ? String(num(gv("Wt"))) : ""; f.Formulas = $$(".chip.on[data-a=fchip]", fm.o).map(x => x.dataset.v).join("; "); const rsn = $(".chip.on[data-a=reason]", fm.o); f.Reason = !f.Fee && rsn ? rsn.dataset.v : "";
+    if (f.To && f.To < f.Date) return fmErr("End date is before start");
+    if (!rec && !fm.files.length) return fmErr("Add at least one page"); if (rec && rec.f.Pages) f.Pages = rec.f.Pages; capText = cap("diet", f)
+  } else if (type == "supp") {
+    mob = fm.mob; f.Name = gv("Name"); f.Price = String(num(gv("Price")) || ""); f.Date = gv("Date") || today(); f.mob = mob; if (!f.Name) return fmErr("Enter a name"); if (!f.Price) return fmErr("Enter a price"); capText = cap("supp", f)
+  } else if (type == "note") {
+    mob = fm.mob; f.Text = gv("Text"); f.Date = gv("Date") || today(); f.mob = mob; if (!f.Text) return fmErr("Enter a note"); capText = cap("note", f)
+  } else {
+    f.Name = gv("Name"); f.tags = gv("tags"); f.Ingredients = gv("Ingredients"); f.Benefits = gv("Benefits"); f.Formula = gv("Formula"); f.Results = gv("Results"); f.Keywords = gv("Keywords"); if (!f.Name) return fmErr("Enter a name");
+    entry = rec && S.m.h.get(rec.mid); capText = cap("herb", f); if (capText.length > (fm.photo || (entry && entry.thumb) ? 1024 : 4096)) return fmErr(fm.photo || (entry && entry.thumb) ? "Too long for a photo caption (1024)" : "Text is too long")
+  }
+  setBusy(1); setProg(0, "");
+  try {
+    if (type == "profile") {
+      if (!rec) {
+        let res = fm.sent; if (!res) { if (fm.photo) { setProg(0, "Uploading photo"); res = await upload("sendPhoto", photoFD(CH.c, capText, fm.photo), (l, t) => setProg(l / t, `Uploading ${Math.round(l / t * 100)}%`)) } else res = await api("sendMessage", { chat_id: CH.c, text: capText, disable_notification: true }); fm.sent = res }
+        const md = mediaOf(res); DET.set(res.message_id, withPages({ mid: res.message_id, type: "profile", f, media: md }));
+        queueOp("c", { k: mob, set: { name: f.Name, pid: res.message_id, av: md ? md.thumb : "", age: f.Age, wt: f.Weight, date: f.Date, issue: f.Issue } })
+      } else { await editMsg(CH.c, entry.pid, !!entry.av, capText); DET.set(entry.pid, withPages({ ...(DET.get(entry.pid) || { mid: entry.pid, type: "profile" }), f })); queueOp("c", { k: mob, set: { name: f.Name, age: f.Age, wt: f.Weight, date: f.Date, issue: f.Issue } }) }
+    } else if (type == "diet") {
+      if (!rec) {
+        let res = fm.sent; if (!res) {
+          const fl = fm.files, sizes = fl.flatMap(x => [x.blob.size, x.thumb ? x.thumb.size : 0]), sum = sizes.reduce((a, b) => a + b, 0) || 1;
+          const onp = (l, t) => { const by = l / t * sum; let acc = 0; fl.forEach((x, i) => { const sz = sizes[i * 2] + sizes[i * 2 + 1]; const p = Math.max(0, Math.min(1, (by - acc) / (sz || 1))); acc += sz; const b = $$(".fr .pb i", fm.o)[i]; if (b) b.style.transform = `scaleX(${p})` }); setProg(l / t, `Uploading ${Math.round(l / t * 100)}%`) };
+          const fd = new FormData(); fd.append("chat_id", CH.d); fd.append("disable_notification", "true");
+          if (fl.length == 1) { const x = fl[0]; fd.append("caption", capText); fd.append("document", x.blob, x.name); if (x.thumb) fd.append("thumbnail", x.thumb, "t.jpg"); res = [await upload("sendDocument", fd, onp)] }
+          else { fd.append("media", JSON.stringify(fl.map((x, i) => ({ type: "document", media: "attach://f" + i, ...(x.thumb ? { thumbnail: "attach://t" + i } : {}), ...(i == 0 ? { caption: capText } : {}) })))); fl.forEach((x, i) => { fd.append("f" + i, x.blob, x.name); if (x.thumb) fd.append("t" + i, x.thumb, "t" + i + ".jpg") }); res = await upload("sendMediaGroup", fd, onp) }
+          fm.sent = res
+        }
+        const pids = res.map(m => m.message_id), first = res[0]; f.Pages = pids.length > 1 ? pids.join(",") : "";
+        if (pids.length > 1) await editMsg(CH.d, first.message_id, true, cap("diet", f));
+        const md = mediaOf(first); if (md && !md.thumb && md.kind == "img" && fm.files[0].url) IMG.urls.set(md.full, fm.files[0].url);
+        DET.set(first.message_id, withPages({ mid: first.message_id, type: "diet", f, media: md })); queueOp("c", { k: mob, add: ["d", first.message_id] })
+      } else { await editMsg(CH.d, rec.mid, true, capText); rec.f = f; queueOp("c", { k: mob, set: {} }) }
+    } else if (type == "supp" || type == "note") {
+      const key = type == "supp" ? "s" : "n";
+      if (!rec) { const res = fm.sent || (fm.sent = await api("sendMessage", { chat_id: CH.d, text: capText, disable_notification: true })); DET.set(res.message_id, { mid: res.message_id, type, f }); queueOp("c", { k: mob, add: [key, res.message_id] }) }
+      else { await editMsg(CH.d, rec.mid, false, capText); rec.f = f; queueOp("c", { k: mob, set: {} }) }
+    } else {
+      const tags = f.tags.split(/[,،]+/).map(s => s.trim()).filter(Boolean);
+      if (!rec) {
+        let res = fm.sent; if (!res) { if (fm.photo) { res = await upload("sendPhoto", photoFD(CH.h, capText, fm.photo), (l, t) => setProg(l / t, `Uploading ${Math.round(l / t * 100)}%`)) } else res = await api("sendMessage", { chat_id: CH.h, text: capText, disable_notification: true }); fm.sent = res }
+        const md = mediaOf(res); HC.set(res.message_id, { mid: res.message_id, type: "herb", f, tags, media: md });
+        queueOp("h", { k: res.message_id, set: { name: f.Name, tags, kw: f.Keywords, bn: snip(f.Benefits), thumb: md ? md.thumb : "", fav: false } })
+      } else { await editMsg(CH.h, rec.mid, !!entry.thumb, capText); HC.set(rec.mid, { ...rec, f, tags }); queueOp("h", { k: rec.mid, set: { name: f.Name, tags, kw: f.Keywords, bn: snip(f.Benefits) } }); if (CURH && CURH.mid == rec.mid) fillHerb() }
+    }
+    fm.o.lock = false; closeSheet(fm.o); toast("Saved"); FM = null
+  } catch (e) { setBusy(0); fmErr(e.code === 0 ? "No connection. Your data is kept." : e.message, 1) }
+}
+async function deleteRecord() {
+  const fm = FM; if (!fm || !fm.rec || fm.busy) return; const { type, rec } = fm;
+  if (!await confirmBox("Delete " + NM[type] + "?", "This cannot be undone.")) return;
+  setBusy(1);
+  try {
+    await delMsgs(type == "herb" ? CH.h : CH.d, type == "diet" ? (rec.pages || [rec.mid]) : [rec.mid]);
+    if (type == "herb") { HC.delete(rec.mid); queueOp("h", { k: rec.mid, del: 1 }); if (CURH && CURH.mid == rec.mid) closeSheet(CURH.o, false, true) }
+    else { DET.delete(rec.mid); queueOp("c", { k: fm.mob, rem: [type == "diet" ? "d" : type == "supp" ? "s" : "n", rec.mid] }) }
+    fm.o.lock = false; closeSheet(fm.o); toast("Deleted"); FM = null
+  } catch (e) { setBusy(0); fmErr(e.code === 0 ? "No connection" : e.message) }
+}
+async function deleteClient(mob) {
+  const e = S.m.c.get(mob); if (!e) return;
+  if (!await confirmBox("Delete client?", "The profile and all records will be removed.")) return;
+  toast("Deleting…", 8000);
+  try {
+    let all = [e.pid, ...e.s, ...e.n];
+    for (const id of e.d) { let r = DET.get(id); if (!isLoaded(r)) { try { r = await readRec(CH.d, id, 0); if (r) withPages(r) } catch (x) { if (!gone(x)) throw x } } all.push(...(r && r.pages ? r.pages : [id])) }
+    await delMsgs(CH.c, [e.pid]); await delMsgs(CH.d, all.slice(1)); [e.pid, ...e.d, ...e.s, ...e.n].forEach(i => DET.delete(i));
+    if (PV && PV.mob == mob) closeSheet(PV.o, false, true); queueOp("c", { k: mob, del: 1 }); toast("Client deleted")
+  } catch (x) { toast(x.code === 0 ? "No connection" : x.message) }
+}
+
+/* ---------- herb detail ---------- */
+let CURH = null;
+function openHerb(mid) {
+  const e = S.m.h.get(mid); if (!e) return;
+  const o = openSheet(`<div class="grab"></div><div class="hd"><button class="ib" data-a="close" aria-label="Close">${XI()}</button><b class="ttl"></b><span style="display:flex"><button class="ib star" data-a="fav" data-k="${mid}" aria-label="Favourite">${ic("star")}</button><button class="ib" data-a="edith" aria-label="Edit">${ic("edit")}</button></span></div><div class="sc" id="hb"></div>`, { cls: "full", onclose() { if (CURH && CURH.o === o) CURH = null } });
+  CURH = { mid, o, bad: 0 }; fillHerb();
+  if (!HC.has(mid)) readRec(CH.h, mid, 0).then(r => { if (r) HC.set(mid, r); else CURH && (CURH.bad = 1); if (CURH && CURH.mid == mid) fillHerb() }).catch(err => { if (CURH && CURH.mid == mid) { CURH.bad = 1; fillHerb() } })
+}
+function fillHerb() {
+  const c = CURH; if (!c) return; const e = S.m.h.get(c.mid); if (!e) { closeSheet(c.o, false, true); return } const o = c.o, r = HC.get(c.mid);
+  setT($(".ttl", o), e.name); $(".star", o).classList.toggle("on", !!e.fav);
+  const f = r ? r.f : {}, sec = (t, v) => v ? `<div class="hsec"><h4>${t}</h4><p>${esc(v)}</p></div>` : "";
+  const full = r && r.media ? r.media.full : "", th = e.thumb || (r && r.media && r.media.thumb) || "";
+  $("#hb", o).innerHTML = `${th ? `<div class="hphoto"><img class="lo" alt="" data-fid="${esc(th)}" data-p="1"><img class="hi" alt="" ${full ? `data-fid="${esc(full)}"` : ""} data-p="1"></div>` : ""}<div class="hero" style="padding-bottom:0"><h2 style="margin-top:4px">${esc(e.name)}</h2>${e.tags.length ? `<div class="tags">${e.tags.map(t => `<span>${esc(t)}</span>`).join("")}</div>` : ""}</div>
+${r ? sec("Main ingredients", f.Ingredients) + sec("Benefits", f.Benefits) + sec("Formula", f.Formula) + sec("Results", f.Results) + sec("Other names", f.Keywords) : c.bad ? `<div class="note-i">Could not load. <button class="retry" data-a="retryherb">Retry</button></div>` : `<div class="hsec"><div class="sk l1"></div><div class="sk l2"></div></div><div class="hsec"><div class="sk l1"></div><div class="sk l2"></div></div>`}`;
+  lazy(o)
+}
+function toggleFav(mid) { const e = S.m.h.get(mid); if (!e) return; queueOp("h", { k: mid, set: { fav: !e.fav } }); if (CURH && CURH.mid == mid) $(".star", CURH.o).classList.toggle("on", !e.fav) }
+
+/* ---------- viewer ---------- */
+function attachZoom(sl) {
+  const zm = $(".zm", sl); let s = 1, tx = 0, ty = 0; const P = new Map(); let g = null, lt = 0, lx = 0, ly = 0;
+  const apply = t => { const w = sl.clientWidth, h = sl.clientHeight, mx = (w * s - w) / 2, my = (h * s - h) / 2; tx = Math.max(-mx, Math.min(mx, tx)); ty = Math.max(-my, Math.min(my, ty)); zm.classList.toggle("t", !!t); zm.style.transform = `translate(${tx}px,${ty}px) scale(${s})`; sl.classList.toggle("z", s > 1.02) };
+  const cen = () => { const a = [...P.values()]; return [a.reduce((t, p) => t + p[0], 0) / a.length, a.reduce((t, p) => t + p[1], 0) / a.length] };
+  const rel = c => { const r = sl.getBoundingClientRect(); return [c[0] - r.left - r.width / 2, c[1] - r.top - r.height / 2] };
+  const snap = () => { const a = [...P.values()], c = rel(cen()); return { s, tx, ty, c, d: a.length > 1 ? Math.hypot(a[0][0] - a[1][0], a[0][1] - a[1][1]) : 0 } };
+  sl.addEventListener("touchstart", e => { if (e.touches.length > 1) e.preventDefault() }, { passive: false });
+  sl.addEventListener("pointerdown", e => {
+    P.set(e.pointerId, [e.clientX, e.clientY]);
+    if (P.size == 1) { const now = e.timeStamp; if (now - lt < 300 && Math.hypot(e.clientX - lx, e.clientY - ly) < 30) { const p = rel([e.clientX, e.clientY]); const ns = s > 1.05 ? 1 : 2.5; tx = p[0] - (p[0] - tx) * (ns / s); ty = p[1] - (p[1] - ty) * (ns / s); s = ns; if (s == 1) { tx = ty = 0 } apply(1); lt = 0; P.clear(); g = null; return } lt = now; lx = e.clientX; ly = e.clientY }
+    if (s > 1.02 || P.size > 1) { try { sl.setPointerCapture(e.pointerId) } catch (x) { } } g = snap()
+  });
+  sl.addEventListener("pointermove", e => {
+    if (!P.has(e.pointerId) || !g) return; P.set(e.pointerId, [e.clientX, e.clientY]); const a = [...P.values()];
+    if (a.length < 2 && s <= 1.02) return; const c = rel(cen()); const ns = a.length > 1 && g.d ? Math.max(1, Math.min(5, g.s * Math.hypot(a[0][0] - a[1][0], a[0][1] - a[1][1]) / g.d)) : g.s;
+    tx = c[0] - (g.c[0] - g.tx) * (ns / g.s); ty = c[1] - (g.c[1] - g.ty) * (ns / g.s); s = ns; apply()
+  });
+  const end = e => { P.delete(e.pointerId); if (s < 1.03) { s = 1; tx = ty = 0; apply(1) } g = P.size ? snap() : null };
+  sl.addEventListener("pointerup", end); sl.addEventListener("pointercancel", end);
+  sl.reset = () => { s = 1; tx = ty = 0; apply(0) }
+}
+function openViewer(r) {
+  const pages = r.pages && r.pages.length ? r.pages : [r.mid], slots = pages.map((id, i) => ({ id, m: i == 0 ? r.media : null, st: 0 })), urls = [];
+  const o = openSheet(`<div class="hd vbar"><button class="ib" data-a="close" aria-label="Close">${XI()}</button><b class="ttl" id="vc"></b><span style="width:38px"></span></div><div class="pager" id="pg">${slots.map((s, i) => `<div class="slide" data-i="${i}"><div class="zm"><img class="lo" alt=""><img class="hi" alt=""></div><div class="vmsg"><div class="spin"></div></div></div>`).join("")}</div>`, { cls: "vw", mod: false, nodrag: true, onclose() { urls.forEach(u => URL.revokeObjectURL(u)) } });
+  const sl = $$(".slide", o); sl.forEach(attachZoom);
+  const fill = async i => {
+    const s = slots[i]; if (!s || s.st == 1 || s.st == 2) return; s.st = 1; const el0 = sl[i], msg = $(".vmsg", el0);
+    try {
+      if (!s.m) { const m = await fwd(CH.d, s.id, 0); s.m = m && mediaOf(m) } if (!s.m) throw new Error("none");
+      if (s.m.kind == "pdf" || s.m.kind == "doc") { msg.innerHTML = `${ic("file")}<div style="margin-top:8px">${esc(s.m.name || "File")}</div><button class="btn" data-a="ext" data-f="${esc(s.m.full)}">Open file</button>`; s.st = 2; return }
+      const lo = $(".lo", el0), hi = $(".hi", el0), tf = thumbFid(s.m);
+      if (tf) IMG.get(tf, { p: 0 }).then(u => { if (u && !hi.classList.contains("in")) lo.src = u }).catch(() => { });
+      const u = await IMG.get(s.m.full, { p: 0, nocache: true }); if (u.startsWith("blob:")) urls.push(u);
+      hi.onload = () => { hi.classList.add("in"); lo.remove(); msg.remove() }; hi.onerror = () => { msg.innerHTML = `<div>Could not load</div><button class="btn" data-a="vretry" data-i="${i}">Retry</button>`; s.st = 0 }; hi.src = u; s.st = 2
+    } catch (e) { s.st = 0; msg.innerHTML = `<div>${e.code === 0 ? "No connection" : "Could not load"}</div><button class="btn" data-a="vretry" data-i="${i}">Retry</button>` }
+  };
+  o.fill = fill; let cur = -1;
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { const i = +e.target.dataset.i; if (i !== cur) { if (cur >= 0) sl[cur].reset(); cur = i; setT($("#vc", o), slots.length > 1 ? `${i + 1} / ${slots.length}` : ""); fill(i); fill(i + 1); fill(i - 1) } } }), { root: $("#pg", o), threshold: .6 });
+  sl.forEach(s => io.observe(s))
+}
+
+/* ---------- settings ---------- */
+async function diag(o) {
+  const box = $("#dg", o); const row = (ok, t, s) => `<div class="dgr ${ok ? "ok" : "no"}">${ic(ok ? "check" : "x")}<div>${esc(t)}${s ? `<small>${esc(s)}</small>` : ""}</div></div>`; let h = "";
+  try {
+    const me = await api("getMe");
+    for (const [t, chat, mode] of [["Profiles channel", CH.c, 2], ["Diet channel", CH.d, 1], ["Formulas channel", CH.h, 1]]) {
+      try {
+        const m = await api("getChatMember", { chat_id: chat, user_id: me.id });
+        const need = mode == 1 ? [["can_post_messages", "post"], ["can_edit_messages", "edit"], ["can_delete_messages", "delete"], ["can_pin_messages", "pin"]] : [["can_delete_messages", "delete"], ["can_pin_messages", "pin"]];
+        const miss = need.filter(x => !m[x[0]]).map(x => x[1]); h += row(m.status == "administrator" && !miss.length, t, m.status != "administrator" ? "Make the bot an admin" : miss.length ? "Missing rights: " + miss.join(", ") : "")
+      } catch (e) { h += row(0, t, e.message) }
+    }
+  } catch (e) { h = row(0, "Bot", e.code === 0 ? "No connection" : e.message) }
+  if ($("#dg", o)) box.innerHTML = h
+}
+function openSettings() {
+  const o = openSheet(`<div class="grab"></div><div class="hd"><button class="ib" data-a="close" aria-label="Close">${XI()}</button><b class="ttl">Settings</b><span style="width:38px"></span></div><div class="sc"><button class="set-b" data-a="sync"><span>Sync now</span></button><button class="set-b" data-a="rebuild" data-v="c"><span>Rebuild client index<small>Full scan</small></span></button><button class="set-b" data-a="rebuild" data-v="h"><span>Rebuild formulas index<small>Full scan</small></span></button><div style="margin-top:16px" id="dg"><div class="dgr"><div class="spin" style="width:16px;height:16px"></div></div></div></div>`, { cls: "sm" }); diag(o)
+}
+async function rebuild(kind) {
+  if (!await confirmBox("Rebuild index?", "Reads every message again. This can take a while.", "Rebuild", false)) return;
+  for (const o of [...OV]) if (o.opt.cls == "sm" && $("#dg", o)) closeSheet(o);
+  await mdel("scan:" + kind); DET.clear(); HC.clear(); idb("rec", "readwrite", s => s.clear());
+  chain(CQ, kind, () => scanFlow(kind)).then(() => { setSt("Up to date") }).catch(e => { if (e instanceof Stop) setSt("Paused"); else { setSt("Sync failed"); toast(e.message) } })
+}
+
+/* ---------- actions ---------- */
+const ACT = {
+  tab(t) {
+    const v = t.dataset.v; if (S.tab === v) return; S.sy[S.tab] = scrollY; S.tab = v; $("#seg").dataset.t = v;
+    const on = $(v == "c" ? "#pc" : "#ph"), off = $(v == "c" ? "#ph" : "#pc"); off.classList.remove("on"); on.classList.add("on", "fx"); on.addEventListener("animationend", () => on.classList.remove("fx"), { once: true });
+    if (v == "h") renderHerbs(); scrollTo(0, S.sy[v] || 0)
+  },
+  sort(t) { S.sort = t.dataset.v; renderHerbs() }, favf() { S.fav = !S.fav; renderHerbs() },
+  tag(t) { S.tag = S.tag == t.dataset.v ? "" : t.dataset.v; $("#tagrow").dataset.s = ""; renderHerbs() },
+  new() { S.tab == "c" ? openForm("profile") : openForm("herb") },
+  open(t) { openProfile(t.dataset.k, t) }, herb(t) { openHerb(+t.dataset.k) },
+  fav(t) { toggleFav(+t.dataset.k) },
+  close(t) { const o = t.closest(".ov"); if (PV && PV.o === o) closeProfile(); else closeSheet(o) },
+  info() { openInfo() }, more(t) { if (!PV) return; PV.more = PV.more || {}; PV.more[t.dataset.k] = !PV.more[t.dataset.k]; fillProfile() },
+  editp() { const e = PV && S.m.c.get(PV.mob); if (!e) return; const r = DET.get(e.pid); let f; if (isLoaded(r)) f = { ...r.f }; else if (e.issue !== undefined) f = { Name: e.name, Age: e.age, Weight: e.wt, Date: e.date, Issue: e.issue }; else return toast("Still loading"); openForm("profile", { rec: { mob: e.mob, f } }) },
+  add(t) { if (PV) openForm(t.dataset.t, { mob: PV.mob }) },
+  edit(t) { const r = DET.get(+t.dataset.k); if (isLoaded(r) && PV) openForm(t.dataset.t, { rec: r, mob: PV.mob }) },
+  edith() { const c = CURH, r = c && HC.get(c.mid); if (!r) return toast("Still loading"); openForm("herb", { rec: r, tags: (S.m.h.get(c.mid) || {}).tags || r.tags }) },
+  view(t) { const r = DET.get(+t.dataset.k); if (isLoaded(r) && r.media) openViewer(r) },
+  dchip(t) { const i = $("input", t.parentNode); i.value = t.dataset.v == "0" ? today() : yest(); syncChips(FM.o) },
+  pickphoto() { $("#phin", FM.o).click() }, pickfiles() { $("#fin", FM.o).click() },
+  rmfile(t) { const fm = FM; const i = fm.files.findIndex(x => x.id == +t.dataset.k); if (i >= 0) { const x = fm.files[i]; if (x.url) URL.revokeObjectURL(x.url); fm.files.splice(i, 1); renderFiles() } },
+  submit() { submit() },
+  delrec() { if (!FM) return; if (FM.type == "profile") { const mob = FM.rec.mob, o = FM.o; closeSheet(o); deleteClient(mob) } else deleteRecord() },
+  retryload() { loadClient(PV.mob); fillProfile() }, retryherb() { const c = CURH; if (!c) return; c.bad = 0; fillHerb(); readRec(CH.h, c.mid, 0).then(r => { if (r) HC.set(c.mid, r); else c.bad = 1; if (CURH === c) fillHerb() }).catch(() => { c.bad = 1; if (CURH === c) fillHerb() }) },
+  reason(t) { const on = t.classList.contains("on"); $$("[data-a=reason]", FM.o).forEach(x => x.classList.remove("on")); if (!on) t.classList.add("on") },
+  fchip(t) { t.classList.toggle("on") },
+  gof(t) { const n = norm(t.dataset.v), e = [...S.m.h.values()].find(h => norm(h.name) == n); e ? openHerb(e.mid) : toast("Formula not found") },
+  settings() { openSettings() },
+  sync() { const o = $("#dg") && $("#dg").closest(".ov"); if (o) closeSheet(o); syncAll(true) },
+  rebuild(t) { rebuild(t.dataset.v) },
+  vretry(t) { const o = t.closest(".ov"), i = +t.dataset.i; $(".vmsg", o.querySelectorAll(".slide")[i]).innerHTML = '<div class="spin"></div>'; o.fill(i) },
+  async ext(t) { const w = window.open("", "_blank"); try { const u = IMG.direct(await IMG.path(t.dataset.f)); if (w) w.location = u; else location.href = u } catch (e) { if (w) w.close(); toast("Could not open") } }
+};
+document.addEventListener("click", e => { const t = e.target.closest("[data-a]"); if (!t || t.disabled) return; const fn = ACT[t.dataset.a]; if (fn) fn(t, e) });
+document.addEventListener("change", async e => {
+  const t = e.target; if (!FM) return;
+  if (t.id == "phin") {
+    const f = t.files[0]; t.value = ""; if (!f) return;
+    try { const b = FM.type == "profile" ? await cropPhoto(f) : await packPhoto(f, 1280, .85); if (b && FM) setPhoto(b) } catch (x) { toast("Can't read this image") }
+  } else if (t.id == "fin") { const l = [...t.files]; t.value = ""; if (l.length) addFiles(l) }
+});
+$("#q").addEventListener("input", deb(() => { const i = $("#q"), v = i.value.replace(/\D/g, ""); if (i.value !== v) i.value = v; S.q = v; S.limit = 40; renderClients() }, 120));
+$("#hq").addEventListener("input", deb(() => { S.hq = $("#hq").value; renderHerbs() }, 140));
+$(".brand").addEventListener("click", () => syncAll(true));
+addEventListener("online", () => syncAll(false));
+let lastVis = Date.now(); document.addEventListener("visibilitychange", () => { if (document.visibilityState == "visible" && Date.now() - lastVis > 60000) { lastVis = Date.now(); syncAll(false) } else if (document.visibilityState == "hidden") lastVis = Date.now() });
+addEventListener("unhandledrejection", e => { if (e.reason instanceof Stop) e.preventDefault() });
+
+/* ---------- background offline copy of all text ---------- */
+async function prefetch() {
+  if (prefetch.on || !navigator.onLine) return; prefetch.on = 1;
+  const todo = []; S.m.h.forEach(e => { if (!HC.has(e.mid)) todo.push([CH.h, e.mid, null]) });
+  S.m.c.forEach(e => { if (e.pid && !DET.has(e.pid)) todo.push([CH.c, e.pid, e.mob]); [...e.d, ...e.s, ...e.n].forEach(i => { if (!DET.has(i)) todo.push([CH.d, i, null]) }) });
+  let n = 0; const t = todo.length;
+  try {
+    for (const [c, id, mob] of todo) {
+      if (!navigator.onLine) break; if (n % 5 == 0) setSt(`Saving offline copy ${n} of ${t}`); n++;
+      try {
+        const r = await readRec(c, id, 3); if (!r) continue;
+        if (c == CH.h) HC.set(id, r); else { DET.set(id, withPages(r)); if (mob) { const en = S.m.c.get(mob); if (en && en.issue !== (r.f.Issue || "")) { en.issue = r.f.Issue || ""; persistOne("c", { k: mob }) } } }
+        if (PV) rq(fillProfile)
+      } catch (e) { if (e.code === 0) break }
+    }
+  } finally { prefetch.on = 0; if (t) setSt(navigator.onLine ? "Up to date" : "Offline") }
+}
+/* ---------- boot ---------- */
+(async () => {
+  const [pc, ph, pcd, phd, rc] = await Promise.all([idb("prof", "readonly", s => s.getAll()), idb("herb", "readonly", s => s.getAll()), mget("pend:c"), mget("pend:h"), idb("rec", "readonly", s => s.getAll())]);
+  (rc || []).forEach(v => Map.prototype.set.call(v._c === CH.h ? HC : DET, v.mid, v));
+  (pc || []).forEach(e => S.m.c.set(e.mob, e)); (ph || []).forEach(e => S.m.h.set(e.mid, e)); PEND.c = pcd || []; PEND.h = phd || []; reapplyPending("c"); reapplyPending("h");
+  renderClients(); renderHerbs(); syncAll(false)
+})();
+
+</script>
+<script>if("serviceWorker" in navigator&&location.protocol.startsWith("http"))addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}))</script>
+</body></html>
